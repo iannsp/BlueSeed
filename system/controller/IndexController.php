@@ -7,5 +7,8 @@ class IndexController extends Controller implements ControllerInterface{
 	public function notfound(){
 		view::render('system_notfound');
 	}
+	public function teste(){
+		var_dump($this->GET);
+	}
 }
 ?>
