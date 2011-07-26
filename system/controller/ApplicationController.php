@@ -2,12 +2,11 @@
 
 class ApplicationController extends Controller {
 	public function dispatch(){
+
 		if( $this->canRequest($this->controller, $this->action) ){
 			$controller = $this->controller ;
 			$controller = new $controller();
 			$controllermethod = $this->action;
-			$ab = new BusinessAnnotation( $this->controller );
-			$ab->setMethod( $controllermethod );
 			$controller->$controllermethod();
 		}else{
 			$controller = new IndexController();
