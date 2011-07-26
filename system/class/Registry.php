@@ -12,14 +12,9 @@ class Registry{
 		if (isset(self::$data['objects'][$name])){
 			return unserialize(self::$data['objects'][$name]);
 		}
-/*		if (isset($_SESSION['objects'][$name])){
-				return unserialize($_SESSION['objects'][$name]);
-			}
-*/			
 		return NULL;
 	}
 	public static function setObject($name, $value){
 		self::$data['objects'][$name]	= serialize($value);
-//			$_SESSION['objects'][$name]  = serialize( $value );
 	}
 }
