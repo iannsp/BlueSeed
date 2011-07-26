@@ -69,7 +69,6 @@ abstract class ActiveRecord{
 		}
 		$updatestr =  implode(",",$updateTerm);
 		$sql = "update {$this->getTableName()} set {$updatestr} where {$this->getIndexName()} = '{$this->getIndexValue()}';";
-		echo $sql;
 		$ret =  Database::getInstance()->
 		get( $this->getConnectionName() )->
 		get()->Exec($sql);
