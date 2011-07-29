@@ -1,8 +1,8 @@
 <?php
-session_start();
 define( 'APP_PATH', dirname(__FILE__).'/' );
 
 require_once 'config/system.conf.php';
+require_once 'config/options.conf.php';
 
 function _autoload_($name) {
 	if(file_exists(APP_PATH."class/{$name}.php")){
@@ -19,6 +19,7 @@ function _autoload_($name) {
     }
 }
 spl_autoload_register('_autoload_');
+Session::start();
 $systimezone= new DateTimeZone('America/Sao_Paulo');
 Registry::setVar('timezone', $systimezone);
 

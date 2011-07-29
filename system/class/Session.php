@@ -1,6 +1,12 @@
 <?php
 // elaborar melhor uma solucao para Session e Register...
 class Session{
+	public static function start(){
+		session_start();
+	}
+	public static function destroy(){
+		session_destroy();
+	}
 	public static function setVar($name, $value){
 		$_SESSION[$name] 	= 	$value;
 	}
