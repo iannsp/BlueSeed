@@ -9,13 +9,13 @@ abstract class ActiveRecord{
 		if ( count($this->fields) )
 			return;
 		$rInstance = new ReflectionClass($this);
-		$this->sa		   = New SystemAnnotation( $rInstance->getName() );
+		$this->type	= 	$rInstance->getName();
+		$this->sa	= 	New SystemAnnotation( $rInstance->getName() );
 		$properties = $rInstance->GetProperties(ReflectionProperty::IS_PUBLIC);
 		foreach ($properties as $name => $property){
 			array_push($this->fields, ($fname= $property->getName()) );
 			array_push($this->values, $this->$fname )  ;
 		}
-		$this->type				= 	$rInstance->getName();
 	}
 	public function getIndexName(){
 		$this->loadMeta();
@@ -46,9 +46,6 @@ abstract class ActiveRecord{
 		$vo->setIndexValue($idvalue);
 		$result = Search::Select($vo)->Where()->equal($vo->getIndexName())->exec();
 		return (count($result)==1)?$result[0]:NULL;
-	}
-	public static function search(){
-//		Search::Select( )
 	}
 	public function save(){
 		$this->loadMeta();
