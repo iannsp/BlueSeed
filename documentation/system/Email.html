@@ -50,7 +50,7 @@
 			<div class="method-summary">
 																																																												
 												<div class="method-definition">
-											<span class="method-result">Email</span>
+											<span class="method-result">void</span>
 										<a href="#__construct" title="details" class="method-name">__construct</a>
 										()
 									</div>
@@ -62,27 +62,27 @@
 																<div class="method-definition">
 											<span class="method-result">void</span>
 										<a href="#send" title="details" class="method-name">send</a>
-											([<span class="var-type"></span>&nbsp;<span class="var-name">$asHTML</span> = <span class="var-default">true</span>])
+											([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$asHTML</span> = <span class="var-default">true</span>])
 									</div>
 																<div class="method-definition">
 											<span class="method-result">void</span>
 										<a href="#setBody" title="details" class="method-name">setBody</a>
-											(<span class="var-type"></span>&nbsp;<span class="var-name">$str</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$str</span>)
 									</div>
 																<div class="method-definition">
 											<span class="method-result">void</span>
 										<a href="#setFrom" title="details" class="method-name">setFrom</a>
-											(<span class="var-type"></span>&nbsp;<span class="var-name">$mailfrom</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$mailfrom</span>)
 									</div>
 																<div class="method-definition">
 											<span class="method-result">void</span>
 										<a href="#setSubject" title="details" class="method-name">setSubject</a>
-											(<span class="var-type"></span>&nbsp;<span class="var-name">$str</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$str</span>)
 									</div>
 																<div class="method-definition">
 											<span class="method-result">void</span>
 										<a href="#setTo" title="details" class="method-name">setTo</a>
-											(<span class="var-type"></span>&nbsp;<span class="var-name">$mailto</span>)
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$mailto</span>)
 									</div>
 								</div>
 		</div>
@@ -101,16 +101,17 @@
 			<A NAME='method_detail'></A>
 
 <a name="method__construct" id="__construct"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">Constructor __construct</span> (line <span class="line-number">16</span>)
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">46</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor where the Mail Pear are Instanciate</p>
 	
 	<div class="method-signature">
-		<span class="method-result">Email</span>
+		<span class="method-result">void</span>
 		<span class="method-name">
 			__construct
 		</span>
@@ -121,13 +122,14 @@
 			
 	</div>
 <a name="methodclearData" id="clearData"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">clearData</span> (line <span class="line-number">43</span>)
+		<span class="method-title">clearData</span> (line <span class="line-number">114</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">reset the data to prepare a New Mail if all data is newer</p>
 	
 	<div class="method-signature">
 		<span class="method-result">void</span>
@@ -141,125 +143,130 @@
 			
 	</div>
 <a name="methodsend" id="send"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">send</span> (line <span class="line-number">35</span>)
+		<span class="method-title">send</span> (line <span class="line-number">95</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Send the email</p>
 	
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
 			send
 		</span>
-					([<span class="var-type"></span>&nbsp;<span class="var-name">$asHTML</span> = <span class="var-default">true</span>])
+					([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$asHTML</span> = <span class="var-default">true</span>])
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">boolean</span>
 				<span class="var-name">$asHTML</span>			</li>
 				</ul>
 		
 			
 	</div>
 <a name="methodsetBody" id="setBody"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">setBody</span> (line <span class="line-number">19</span>)
+		<span class="method-title">setBody</span> (line <span class="line-number">55</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">setter to Body</p>
 	
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
 			setBody
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$str</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$str</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">string</span>
 				<span class="var-name">$str</span>			</li>
 				</ul>
 		
 			
 	</div>
 <a name="methodsetFrom" id="setFrom"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">setFrom</span> (line <span class="line-number">27</span>)
+		<span class="method-title">setFrom</span> (line <span class="line-number">75</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">setter to From</p>
 	
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
 			setFrom
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$mailfrom</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$mailfrom</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">string</span>
 				<span class="var-name">$mailfrom</span>			</li>
 				</ul>
 		
 			
 	</div>
 <a name="methodsetSubject" id="setSubject"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
-		<span class="method-title">setSubject</span> (line <span class="line-number">23</span>)
+		<span class="method-title">setSubject</span> (line <span class="line-number">65</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">setter to Subject</p>
 	
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
 			setSubject
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$str</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$str</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">string</span>
 				<span class="var-name">$str</span>			</li>
 				</ul>
 		
 			
 	</div>
 <a name="methodsetTo" id="setTo"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
-		<span class="method-title">setTo</span> (line <span class="line-number">31</span>)
+		<span class="method-title">setTo</span> (line <span class="line-number">85</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">setter to TO</p>
 	
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
 			setTo
 		</span>
-					(<span class="var-type"></span>&nbsp;<span class="var-name">$mailto</span>)
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$mailto</span>)
 			</div>
 	
 			<ul class="parameters">
 					<li>
-				<span class="var-type"></span>
+				<span class="var-type">string</span>
 				<span class="var-name">$mailto</span>			</li>
 				</ul>
 		
@@ -271,7 +278,7 @@
 
 
 	<p class="notes" id="credit">
-		Documentation generated on Sat, 30 Jul 2011 02:17:48 -0300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+		Documentation generated on Sun, 31 Jul 2011 04:51:26 -0300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
 	</p>
 	</div></body>
 </html>
