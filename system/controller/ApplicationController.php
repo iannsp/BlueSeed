@@ -1,26 +1,27 @@
 <?php
+/**
+ * 
+ * This Controller launch the target controller and request the request action
+ * @author ivonascimento <ivo@o8o.com.br>
+ * @license   http://www.opensource.org/licenses/bsd-license.php BSD
+ * @package system
+ */
 
 class ApplicationController extends Controller {
+	/**
+	 * 
+	 * Test the Request and Dispatch it
+	 * @access public 
+	 * @return void
+	 */
 	public function dispatch(){
-
-		if( $this->canRequest($this->controller, $this->action) ){
-			$controller = $this->controller ;
-			$controller = new $controller();
+		if ( class_exists($this->controller) and method_exists( $this->controller, $this->action)){
+			$controller = new $this->controller();
 			$controllermethod = $this->action;
 			$controller->$controllermethod();
 		}else{
 			$controller = new IndexController();
 			$controller->notfound();
 		}
-	}
-	private function has($name){
-		return file_exists(CONTROLLER_PATH.strtolower($name).".php");
-	}
-	private function hasAction($name, $method){
-		$lookforMethod = new ReflectionClass($name);
-		return $lookforMethod->hasMethod($method);
-	}
-	private function canRequest($controller, $method){
-		return ($this->has($controller) && $this->hasAction($controller, $method));
 	}
 }
