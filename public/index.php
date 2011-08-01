@@ -1,5 +1,5 @@
 <?php
-include '../system/bootstrap.php';
-$C = new ApplicationController();
+include '../Application/bootstrap.php';
+$C = new BlueSeed\ApplicationController();
 $C->dispatch();
 
