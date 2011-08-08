@@ -1,7 +1,7 @@
 <?php
 require_once '../BlueSeed/bootstrap.php';
 
-require_once APP_PATH.'/config/options.conf.php';
+require_once APP_PATH.'/Config/options.conf.php';
 define('PEAR_PATH',					APP_PATH.'/vendor/Pear/');
 define('LOCALE_PATH'			, 	APP_PATH."/locale/");
 
