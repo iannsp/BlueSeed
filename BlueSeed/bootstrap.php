@@ -3,12 +3,11 @@ define( 'SYS_PATH', dirname(__FILE__) );
 $pathinfo 	=	pathinfo(SYS_PATH);
 define( 'APP_PATH',		$pathinfo['dirname']."/Application/");
 
-require_once SYS_PATH.'/config/system.conf.php';
-require_once APP_PATH.'/config/options.conf.php';
+require_once SYS_PATH.'/Config/system.conf.php';
 
 function _autoload_($name) {
 	global $pathinfo;
-	
+
 	$searchpath 	= 	explode('\\', $name);
 	$name	= array_pop( $searchpath );
 	$searchpath =  $pathinfo['dirname']."/".implode('/',$searchpath)."/";
@@ -17,7 +16,7 @@ function _autoload_($name) {
 	        require_once("{$searchpath}{$name}.php");
 		}
 	}catch(Exception $E){
-		\BlueSeed\View::render('system_notfound');		
+		\BlueSeed\View::render('system_notfound');
 	}
 }
 

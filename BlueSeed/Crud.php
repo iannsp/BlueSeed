@@ -44,7 +44,10 @@ abstract class Crud {
 	 * @access public
 	 */
 	public function registerValidator(Validator $validator, $fieldName=NULL){
-		
+		if ($fieldName)
+			$this->validators[ $fiedName ] = $validator;
+		else
+			array_push($this->validators, $validator);
 	}
 	/**
 	 * 
