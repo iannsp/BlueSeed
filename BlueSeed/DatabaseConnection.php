@@ -22,17 +22,11 @@ class DatabaseConnection {
 	/**
 	 * 
 	 * the constructor of classe where the configuration are setted
-	 * @param string $dsn
-	 * @param string $user
-	 * @param string $password
+	 * @param \PDO $objconn
 	 * @return void
 	 */
-	function __construct($dsn, $user, $password) {
-		try{
-			$this->conn = New \PDO($dsn, $user, $password);
-		}catch( \PDOException $E){
-			throw New \Exception("Impossivel conectar ao DSN {$dsn} - Error:".$E->getMessage() );
-		}
+	function __construct( \PDO $objconn) {
+			$this->conn = $objconn;
 	}
 	/**
 	 * 
