@@ -13,7 +13,7 @@ class testSuite extends PHPUnit_Framework_TestSuite {
     public function __construct() {
         $this->setName ( 'BlueSeedTests' );
 
-        $this->addTestSuite ( 'ViewTest.php' );
+        $this->addTestSuite ( 'ViewTest' );
 
     }
 
