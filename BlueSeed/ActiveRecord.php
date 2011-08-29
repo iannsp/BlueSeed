@@ -118,7 +118,7 @@ abstract class ActiveRecord{
 		$vo = get_called_class();		
 		$vo = new $vo();
 		$result = Search::Select($vo)->exec();
-		return (count($result)>0)?$result:NULL;
+		return $result;
 	}
 	/**
 	 * 
@@ -133,7 +133,7 @@ abstract class ActiveRecord{
 		$vo = new $vo();
 		$vo->setIndexValue($idvalue);
 		$result = Search::Select($vo)->Where()->equal($vo->getIndexName())->exec();
-		return (count($result)==1)?$result[0]:NULL;
+		return $result;
 	}
 	/**
 	 * 
