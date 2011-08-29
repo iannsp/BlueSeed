@@ -109,6 +109,17 @@ abstract class ActiveRecord{
 		$idxname 		= $this->getIndexName();
 		$this->$idxname = $value;
 	}
+    /**
+	 * 
+	 * Fetches all records in a table
+	 * @access public
+	 */
+	public static function fetchAll(){
+		$vo = get_called_class();		
+		$vo = new $vo();
+		$result = Search::Select($vo)->exec();
+		return (count($result)>0)?$result:NULL;
+	}
 	/**
 	 * 
 	 * Find a record and return a instance of VO object used to start 
