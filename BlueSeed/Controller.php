@@ -57,15 +57,28 @@ abstract class Controller{
 	 * @access private
 	 */
 	private function processURLParam(){
-		$GET = Array();
+		$GET = array();
+
 		if (count($_GET)>0){
 			$k = array_keys($_GET);
 			$GET = explode('/', $k[0]);
-			$this->controller 	= ucfirst(trim(array_shift($GET )))."Controller";
+			$this->controller 	= ucfirst(trim(array_shift($GET)))."Controller";
 			$this->action		= trim(array_shift($GET));
-			if($this->action == '')
+            
+			if($this->action == '') {
 				$this->action	= "Index";
-			$this->GET			= trim(implode(',',$GET));			
+            } else {
+                if ($GET) {
+                    if (is_int((count($GET) / 2))) {
+                        for ($c = 0; $c < count($GET); $c++) {
+                            $this->GET[$GET[$c]] = $GET[($c + 1)];
+                            $c++;
+                        }
+                    } else {
+                        throw new \Exception('Wrong parameter count');
+                    }
+                }
+            }
 		}else{
 			$this->controller 	= "IndexController";
 			$this->action		= "Index";
