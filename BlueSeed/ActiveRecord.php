@@ -109,6 +109,17 @@ abstract class ActiveRecord{
 		$idxname 		= $this->getIndexName();
 		$this->$idxname = $value;
 	}
+    /**
+	 * 
+	 * Fetches all records in a table
+	 * @access public
+	 */
+	public static function fetchAll(){
+		$vo = get_called_class();		
+		$vo = new $vo();
+		$result = Search::Select($vo)->exec();
+		return $result;
+	}
 	/**
 	 * 
 	 * Find a record and return a instance of VO object used to start 
@@ -122,7 +133,7 @@ abstract class ActiveRecord{
 		$vo = new $vo();
 		$vo->setIndexValue($idvalue);
 		$result = Search::Select($vo)->Where()->equal($vo->getIndexName())->exec();
-		return (count($result)==1)?$result[0]:NULL;
+		return $result;
 	}
 	/**
 	 * 
