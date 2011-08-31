@@ -1,6 +1,6 @@
 <?php
-use BlueSeed\Observer\ObserverCollection;
 namespace BlueSeed;
+use BlueSeed\Observer\ObserverCollection;
 /**
  *
  * This Controller launch the target controller and request the request action
