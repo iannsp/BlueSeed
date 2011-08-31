@@ -7,7 +7,6 @@ namespace BlueSeed;
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
  * @package system
  * @abstract
- *
  */
 abstract class Controller{
 	/**
@@ -29,7 +28,9 @@ abstract class Controller{
 	 * @access public
 	 */
 	public function __construct(Request $R){
-		$this->Request = $R;
+		$this->Request 		= $R;
+		$this->controller 	= $this->Request->getQuery(0);
+		$this->action		= $this->Request->getQuery(1);
 	}
 
 	/**
