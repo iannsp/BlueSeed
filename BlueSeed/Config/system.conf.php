@@ -5,5 +5,4 @@
  * for the objects in intere root folder
  *
  */
-define('VIEW_PATH',              APP_PATH.'/View/');
 
