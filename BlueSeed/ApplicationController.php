@@ -60,12 +60,14 @@ class ApplicationController extends Controller implements  Observable{
 		if ( $this->hasController($this->controller)){
 			try{
 				$controller = "\\Application\\Controller\\".$this->controller;
-				$controller =  new $controller($R);
+				$controller =  new $controller($this->getRequest());
 				$controllermethod = $this->action;
-				if( method_exists($controller, $controllermethod))
+				if( method_exists($controller, $controllermethod)) {
 					$controller->$controllermethod();
-				else
+				}
+				else {
 					$this->notfound();
+				}
 			}catch(\Exception $E){
 				$this->notFound();
 			}
