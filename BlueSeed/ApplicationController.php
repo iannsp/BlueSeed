@@ -1,19 +1,60 @@
 <?php
+use BlueSeed\Observer\ObserverCollection;
 namespace BlueSeed;
 /**
- * 
+ *
  * This Controller launch the target controller and request the request action
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
  * @package system
  */
+
+use BlueSeed\Observer\Observer;
+
 use \Application;
 use \System;
-class ApplicationController extends Controller {
+use \BlueSeed\Observer\ObserverCollection 	as ObserverCollection;
+use BlueSeed\Observer\Observable;
+class ApplicationController extends Controller implements  Observable{
+
 	/**
-	 * 
+	 *
+	 * the observer Collection to ApplicationController
+	 * @var ObserverCollection
+	 */
+	private $observerCollection;
+
+	public function attachObserver(Observer $o)
+	{
+		array_push($this->observerCollection, $o);
+	}
+	public function detachObserver(Observer $o)
+	{
+		foreach ($this->observerCollection as $okey => $observer) {
+			if ($observer === $o)
+				unset($this->observerCollection[$okey]);
+				break;
+		}
+	}
+	public function notifyObservers()
+	{
+		foreach ($this->observerCollection as $observer) {
+			$observer->update ($this);
+		}
+	}
+
+	/**
+	 *
+	 * The constructor of Controller set type of ObserverCollection
+	 */
+	public function __construct(){
+		parent::__construct();
+		$this->observerCollection = new ObserverCollection();
+	}
+	/**
+	 *
 	 * Test the Request and Dispatch it
-	 * @access public 
+	 * @access public
 	 * @return void
 	 */
 	public function dispatch(){
@@ -22,7 +63,7 @@ class ApplicationController extends Controller {
 				$controller = "\\Application\\Controller\\".$this->controller;
 				$controller =  new $controller;
 				$controllermethod = $this->action;
-				if( method_exists($controller, $controllermethod)) 
+				if( method_exists($controller, $controllermethod))
 					$controller->$controllermethod();
 				else
 					$this->notfound();
