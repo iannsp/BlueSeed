@@ -1,7 +1,6 @@
 <?php
 define( 'SYS_PATH', dirname(__FILE__) );
 $pathinfo 	=	pathinfo(SYS_PATH);
-define( 'APP_PATH',		$pathinfo['dirname']."/Application/");
 
 require_once SYS_PATH.'/Config/system.conf.php';
 
