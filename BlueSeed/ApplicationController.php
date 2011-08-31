@@ -13,7 +13,6 @@ use BlueSeed\Observer\Observer;
 
 use \Application;
 use \System;
-use \BlueSeed\Observer\ObserverCollection 	as ObserverCollection;
 use BlueSeed\Observer\Observable;
 class ApplicationController extends Controller implements  Observable{
 
@@ -47,8 +46,8 @@ class ApplicationController extends Controller implements  Observable{
 	 *
 	 * The constructor of Controller set type of ObserverCollection
 	 */
-	public function __construct(){
-		parent::__construct();
+	public function __construct(Request $R){
+		parent::__construct($R);
 		$this->observerCollection = new ObserverCollection();
 	}
 	/**
@@ -61,7 +60,7 @@ class ApplicationController extends Controller implements  Observable{
 		if ( $this->hasController($this->controller)){
 			try{
 				$controller = "\\Application\\Controller\\".$this->controller;
-				$controller =  new $controller;
+				$controller =  new $controller($R);
 				$controllermethod = $this->action;
 				if( method_exists($controller, $controllermethod))
 					$controller->$controllermethod();

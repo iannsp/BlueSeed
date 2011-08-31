@@ -1,8 +1,7 @@
 <?php
 namespace BlueSeed;
-
 /**
- * 
+ *
  * The controller to support interpretation of requests
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
@@ -12,76 +11,32 @@ namespace BlueSeed;
  */
 abstract class Controller{
 	/**
-	 * 
-	 * The data received in $_GET parsed by processURLParam
-	 * @var ARRAY
-	 * @access protected
-	 */
-	protected $GET;
-	/**
-	 * 
-	 * The data received in $_POST  
-	 * @var Array 
-	 * @access protected
-	 */
-	protected $POST;
-	/**
-	 * 
 	 * The name of requested Controller
 	 * @var String
 	 * @access protected
 	 */
 	protected $controller;
 	/**
-	 * 
 	 * the name of requested Action
 	 * @var String
 	 * @access protected
 	 */
 	protected $action;
 	/**
-	 * 
 	 * The constructor set the needed variables to operate the action
+	 * @param Request $R the request the Application Receive
 	 * @return void
 	 * @access public
 	 */
-	public function __construct(){
-		$this->processURLParam();
-		$this->POST = (object) $_POST;
+	public function __construct(Request $R){
+		$this->Request = $R;
 	}
-	/**
-	 * 
-	 * Method where the friendly URL are parsed into Controller / 
-	 * and Action /Data1/Data2/DataN
-	 * @return void
-	 * @access private
-	 */
-	private function processURLParam(){
-		$GET = array();
 
-		if (count($_GET)>0){
-			$k = array_keys($_GET);
-			$GET = explode('/', $k[0]);
-			$this->controller 	= ucfirst(trim(array_shift($GET)))."Controller";
-			$this->action		= trim(array_shift($GET));
-            
-			if($this->action == '') {
-				$this->action	= "Index";
-            } else {
-                if ($GET) {
-                    if (is_int((count($GET) / 2))) {
-                        for ($c = 0; $c < count($GET); $c++) {
-                            $this->GET[$GET[$c]] = $GET[($c + 1)];
-                            $c++;
-                        }
-                    } else {
-                        throw new \Exception('Wrong parameter count');
-                    }
-                }
-            }
-		}else{
-			$this->controller 	= "IndexController";
-			$this->action		= "Index";
-		}
+	/**
+	 * Retrieve the Request Object
+	 */
+	public function getRequest()
+	{
+		return $this->Request;
 	}
 }
