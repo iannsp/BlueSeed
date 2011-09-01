@@ -1,6 +1,5 @@
 <?php
 namespace BlueSeed;
-use BlueSeed\Observer\ObserverCollection;
 /**
  *
  * This Controller launch the target controller and request the request action
@@ -13,34 +12,8 @@ use BlueSeed\Observer\Observer;
 
 use \Application;
 use \System;
-use BlueSeed\Observer\Observable;
-class ApplicationController extends Controller implements  Observable{
+class ApplicationController extends Controller {
 
-	/**
-	 *
-	 * the observer Collection to ApplicationController
-	 * @var ObserverCollection
-	 */
-	private $observerCollection;
-
-	public function attachObserver(Observer $o)
-	{
-		array_push($this->observerCollection, $o);
-	}
-	public function detachObserver(Observer $o)
-	{
-		foreach ($this->observerCollection as $okey => $observer) {
-			if ($observer === $o)
-				unset($this->observerCollection[$okey]);
-				break;
-		}
-	}
-	public function notifyObservers()
-	{
-		foreach ($this->observerCollection as $observer) {
-			$observer->update ($this);
-		}
-	}
 
 	/**
 	 *
@@ -48,7 +21,7 @@ class ApplicationController extends Controller implements  Observable{
 	 */
 	public function __construct(Request $R){
 		parent::__construct($R);
-		$this->observerCollection = new ObserverCollection();
+//		$this->observerCollection = new ObserverCollection();
 	}
 	/**
 	 *
@@ -59,26 +32,32 @@ class ApplicationController extends Controller implements  Observable{
 	public function dispatch(){
 		if ( $this->hasController($this->controller)){
 			try{
-				$controller = "\\Application\\Controller\\".$this->controller;
-				$controller =  new $controller($this->getRequest());
+				$controllername = "\\Application\\Controller\\".$this->controller;
+				$controller =  new $controllername($this->getRequest());
 				$controllermethod = $this->action;
 				if( method_exists($controller, $controllermethod)) {
+					foreach ($this->observerCollection as $obs) {
+						$controller->attachObserver($obs);
+					}
+					$controller->notifyObservers();
 					$controller->$controllermethod();
 				}
 				else {
-					$this->notfound();
+					$this->notfound($this->controller, $this->action);
 				}
 			}catch(\Exception $E){
-				$this->notFound();
+				$this->notFound($this->controller, $this->action);
 			}
 		}else{
-				$this->notFound();
+				$this->notFound($this->controller, $this->action);
 		}
 	}
 	private function hasController($controllername){
 		return file_exists( APP_PATH."Controller/{$controllername}.php" );
 	}
-	private function notfound(){
+	private function notfound($controller, $action){
+		\BlueSeed\View::set('controller', $controller);
+		\BlueSeed\View::set('action', $action);
 		\BlueSeed\View::render('system_notfound');
 	}
 }
