@@ -2,7 +2,7 @@
 namespace BlueSeed;
 
 /**
- * 
+ *
  * The controller to support interpretation of requests
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
@@ -20,12 +20,12 @@ class SystemAnnotation {
 		$this->class = $class;
 		$this->parse();
 	}
-	
+
 	private function getReflectionClass(){
 		if ($this->method)
-			$reflection = new \ReflectionMethod($this->class, $this->method); 
+			$reflection = new \ReflectionMethod($this->class, $this->method);
 		else
-			$reflection = new \ReflectionClass($this->class); 
+			$reflection = new \ReflectionClass($this->class);
 		return $reflection;
 	}
 	public function setMethod($methodname){
@@ -47,7 +47,7 @@ class SystemAnnotation {
 		}
 	}
 	public function exists($key){
-		return array_key_exists($key, $this->dados);		
+		return array_key_exists($key, $this->dados);
 	}
 	public function get($key){
 		if (!$this->exists($key))
