@@ -8,7 +8,18 @@ namespace BlueSeed;
  * @package system
  * @abstract
  */
-abstract class Controller{
+use BlueSeed\Observer\ObserverCollection;
+use BlueSeed\Observer\Observable;
+use BlueSeed\Observer\Observer;
+
+abstract class Controller implements  Observable{
+	/**
+	 *
+	 * the observer Collection to ApplicationController
+	 * @var ObserverCollection
+	 */
+	protected $observerCollection=Array();
+
 	/**
 	 * The name of requested Controller
 	 * @var String
@@ -40,4 +51,25 @@ abstract class Controller{
 	{
 		return $this->Request;
 	}
+
+	public function attachObserver(Observer $o)
+	{
+		array_push($this->observerCollection, $o);
+	}
+	public function detachObserver(Observer $o)
+	{
+		foreach ($this->observerCollection as $okey => $observer) {
+			if ($observer === $o)
+				unset($this->observerCollection[$okey]);
+				break;
+		}
+	}
+	public function notifyObservers()
+	{
+		foreach ($this->observerCollection as $observer) {
+//			var_dump($observer);
+			$observer->update ($this);
+		}
+	}
+
 }
