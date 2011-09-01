@@ -1,7 +1,7 @@
 <?php
 namespace BlueSeed;
 /**
- * 
+ *
  * The Active Record make possible persist data from VO's
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
@@ -17,32 +17,32 @@ abstract class ActiveRecord{
 	*/
 	private $fields = Array();
 	/**
-	 * 
+	 *
 	 * reflection of VO instance save the fields values here
 	 * @var Array $values
 	 * @access private
 	 */
 	private $values = Array();
 	/**
-	 * 
+	 *
 	 * the VO Name retrieved using reflectoion
 	 * @var string $type
 	 * @access private
 	 */
-	private $type; 
+	private $type;
 	/**
-	 * 
+	 *
 	 * the instance of System Annotation Used to return meta data from instance
 	 * @var SystemAnnotation $sa
 	 * @access private
 	 */
 	private $sa;
 	/**
-	 * 
+	 *
 	 * This function load the Metadata from instance
 	 * @return void
 	 * @access private
-	 * 
+	 *
 	 */
 	private function loadMeta(){
 		if ( count($this->fields) )
@@ -57,7 +57,7 @@ abstract class ActiveRecord{
 		}
 	}
 	/**
-	 * 
+	 *
 	 * This function return the name of Index by Table referenced by VO
 	 * @return string
 	 * @access public
@@ -67,7 +67,7 @@ abstract class ActiveRecord{
 		return $this->sa->get('@indexName');
 	}
 	/**
-	 * 
+	 *
 	 * this function return the value of Index
 	 * @return mixed
 	 * @access public
@@ -78,7 +78,7 @@ abstract class ActiveRecord{
 		return $this->$idxn;
 	}
 	/**
-	 * 
+	 *
 	 * return the table name the VO represent
 	 * @return $string
 	 * @access public
@@ -88,7 +88,7 @@ abstract class ActiveRecord{
 		return $this->sa->get('@tableName');
 	}
 	/**
-	 * 
+	 *
 	 * return the Connection Name to use when persist data from VO
 	 * @return string
 	 * @access public
@@ -98,45 +98,45 @@ abstract class ActiveRecord{
 		return $this->sa->get('@connectionName');
 	}
 	/**
-	 * 
+	 *
 	 * set a value to index field
 	 * @access private
 	 * @param mixed $value
 	 * @return void
-	 */	
+	 */
 	private function setIndexValue($value){
 		$this->loadMeta();
 		$idxname 		= $this->getIndexName();
 		$this->$idxname = $value;
 	}
     /**
-	 * 
+	 *
 	 * Fetches all records in a table
 	 * @access public
 	 */
 	public static function fetchAll(){
-		$vo = get_called_class();		
+		$vo = get_called_class();
 		$vo = new $vo();
 		$result = Search::Select($vo)->exec();
 		return $result;
 	}
 	/**
-	 * 
-	 * Find a record and return a instance of VO object used to start 
+	 *
+	 * Find a record and return a instance of VO object used to start
 	 * the find by index
 	 * @access public
 	 * @param mixed $idvalue
 	 * @param ValueObject
 	 */
 	public static function find($idvalue){
-		$vo = get_called_class();		
+		$vo = get_called_class();
 		$vo = new $vo();
 		$vo->setIndexValue($idvalue);
 		$result = Search::Select($vo)->Where()->equal($vo->getIndexName())->exec();
-		return $result;
+		return (count($result)==1)?$result[0]:null;
 	}
 	/**
-	 * 
+	 *
 	 * Persist the data from VO into your Table representation
 	 * The save verify if exist index value and update without, do a insert
 	 * if insert, the VO index updated to index from insert
@@ -153,7 +153,7 @@ abstract class ActiveRecord{
 			$this->update();
 	}
 	/**
-	 * 
+	 *
 	 * Update a record represented by VO using the index value
 	 * @return void
 	 * @access private
@@ -175,7 +175,7 @@ abstract class ActiveRecord{
 		$stmt->execute();
 	}
 	/**
-	 * 
+	 *
 	 * Insert a record into table linked to VO
 	 * @access private
 	 * @return void
@@ -194,8 +194,8 @@ abstract class ActiveRecord{
 						lastInsertId("{$this->getTableName()}_{$this->getIndexName()}_seq");
 	}
 	/**
-	 * 
-	 * delete a record using the index 
+	 *
+	 * delete a record using the index
 	 * @access public
 	 * @return void
 	 */
