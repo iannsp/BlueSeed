@@ -8,7 +8,6 @@ namespace BlueSeed;
 class Request
 {
 	/**
-	 *
 	 * The data received in $_GET parsed by processURLParam
 	 * in format where any value is independent
 	 * @var ARRAY
@@ -18,7 +17,6 @@ class Request
 
 
 	/**
-	 *
 	 * The data received in $_GET parsed by processURLParam
 	 * in format [N] = N+1
 	 * @var Array
@@ -26,7 +24,6 @@ class Request
 	 */
 	protected $PAIRGET;
 	/**
-	 *
 	 * The data received in $_POST
 	 * @var Array
 	 * @access protected
@@ -39,7 +36,6 @@ class Request
 		$this->POST = (object) $POST;
     }
 	/**
-	 *
 	 * Method where the friendly URL are parsed into Controller /
 	 * and Action /Data1/Data2/DataN
 	 * @return void
@@ -68,6 +64,15 @@ class Request
 			}
 		}
 	}
+
+	/**
+	 * Set the default parameters to Controller and Action if not informed
+	 * with URL
+	 * @param array $GET the Request URL
+	 *
+	 * @return boolean
+	 * @access private
+	 */
 	private function setDefaultControllerAction(Array $GET)
 	{
 		$this->GET[0]	= (array_key_exists(0, $GET))?ucfirst($GET[0])."Controller":"IndexController";
@@ -76,21 +81,53 @@ class Request
 		$this->PAIRGET['action'] = $this->GET[1];
 		return (count($GET)==0)?false:true;
 	}
+	/**
+	 * inform if the Request is a GET Request
+	 * @return boolean
+	 * @access public
+	 */
 	public function isGet()
 	{
 		return !$this->isPOST();
 	}
+	/**
+	 * inform if the Request is a POST Request
+	 * @return boolean
+	 * @access public
+	 */
 	public function isPost()
 	{
 		return (boolean) count($_POST);
 	}
+	/**
+	 * set the Parameters into Request Object.
+	 * normally its is automaticly done using _POST Data
+	 * @param string $name the parameter name
+	 * @param string $value the parameter value
+	 * @return void
+	 * @access public
+	 */
 	public function setParam($name, $value){
 		$this->POST[$name] = $value;
 	}
+	/**
+	 * get The Data Parameters. Normally its a _POST data
+	 * @param string $name
+	 * @return mixed
+	 * @access public
+	 */
 	public function getParam($name)
 	{
-		return $this->POST[$name];
+		return $this->POST->$name;
 	}
+
+	/**
+	 * Get the Data from URL Request
+	 *
+	 * @param string $name
+	 * @return string
+	 * @access public
+	 */
 	public function getQuery($name)
 	{
 		if(array_key_exists($name, $this->PAIRGET)) {
