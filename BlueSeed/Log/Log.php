@@ -45,7 +45,7 @@ class Log
      */
     public function write(Message $msg)
     {
-			array_push($this->messages, $msg);
+		array_push($this->messages, $msg);
 		if(!$this->async) {
 			$this->flush();
 		}
