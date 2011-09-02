@@ -2,7 +2,7 @@
 namespace BlueSeed;
 
 /**
- * 
+ *
  * This class make possible SQL Commands to retrieve data
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
@@ -10,19 +10,19 @@ namespace BlueSeed;
  */
 Class Search{
 	/**
-	 * 
+	 *
 	 * stored the sql sentence are created
 	 * @var string
 	 */
 	private $sqlExp = "";
 	/**
-	 * 
+	 *
 	 * store a instance of VO with the parameter used in search
 	 * @var VO
 	 */
 	private $vo;
 	/**
-	 * 
+	 *
 	 * Constructor
 	 * @param VO $vo this VO have the basic parameters used to perform the search
 	 * @param string $fields Optional Parameter where are set the request fields into Result
@@ -43,7 +43,7 @@ Class Search{
 	}
 
 	/**
-	 * 
+	 *
 	 * Request a New Class of Search
 	 * @param activeRecord $vo a instance of a VO
 	 * @param string $fields a list of fields
@@ -54,7 +54,7 @@ Class Search{
 		return new Search( $vo, $fields );
 	}
 	/**
-	 * 
+	 *
 	 * Add the expression isNull to Search
 	 * @param string $param a field from VO where the value is setted like '%value%'
 	 * @return Search
@@ -63,7 +63,7 @@ Class Search{
 	public function isnull($param){
 		$this->sqlExp.= " {$this->vo->getTableName()}.{$param} is null ";
 		return $this;
-	}	
+	}
 	public function in($param){
 		$this->sqlExp.= " {$this->vo->getTableName()}.{$param} in ({$this->vo->$param}) ";
 		return $this;
@@ -89,7 +89,7 @@ Class Search{
 		return $this;
 	}
 	/**
-	 * 
+	 *
 	 * used to mapping common SQL instruction
 	 * @param string $name
 	 * @param Array $arg
@@ -99,7 +99,7 @@ Class Search{
 		return $this;
 	}
 	/**
-	 * 
+	 *
 	 * configure Subquerys
 	 * @param string $field a field name used to construct the 'in' SQL instruction
 	 * @param Search $search
@@ -111,7 +111,29 @@ Class Search{
 		return $this;
 	}
 	/**
-	 * 
+	 *
+	 * configure Subquerys
+	 * @param string $field a field name used to construct the 'in' SQL instruction
+	 * @param Search $search
+	 * @return Search
+	 * @access public
+	 */
+	public function notInSearch( $field, Search $search){
+		$this->sqlExp .= "{$this->vo->getTableName()}.{$field} not in (". $search->sqlExp .") ";
+		return $this;
+	}
+
+	public function unionDistinct(Search $search){
+		$this->sqlExp .= "union distinct {$search->getSQL()} ";
+		return $this;
+	}
+
+	public function getSQL()
+	{
+		return $this->sqlExp;
+	}
+	/**
+	 *
 	 * perform the Search into DatabaseConnection configured into VO
 	 * @throws Exception
 	 * @return PDOStatement
