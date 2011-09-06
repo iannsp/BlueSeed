@@ -33,7 +33,7 @@ class Request
     function __construct (Array $GET, Array $POST)
     {
 		$this->processURLParam($GET);
-		$this->POST = (object) $POST;
+		$this->POST = $POST;
     }
 	/**
 	 * Method where the friendly URL are parsed into Controller /
@@ -128,7 +128,7 @@ class Request
 	 */
 	public function getParam($name)
 	{
-		return $this->POST->$name;
+		return $this->POST[$name];
 	}
 
 	/**
