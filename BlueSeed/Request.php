@@ -154,7 +154,7 @@ class Request
 	 */
 	public function hasData()
 	{
-		return (bool) count($this->GET)-2;
+		return (count($this->GET)-2 > 0)?true:false;
 	}
 	/**
 	 *
@@ -162,6 +162,6 @@ class Request
 	 */
 	public function hasParam()
 	{
-		return (bool) count($this->POST);
+		return (count($this->POST)>0)?true:false;
 	}
 }
