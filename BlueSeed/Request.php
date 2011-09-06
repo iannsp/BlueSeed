@@ -148,4 +148,12 @@ class Request
 				:NULL;
 		}
 	}
+	/**
+	 *
+	 * return if have some data setted in QueryString
+	 */
+	public function hasData()
+	{
+		return (bool) count($this->GET)-2;
+	}
 }
