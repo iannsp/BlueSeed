@@ -56,6 +56,8 @@ class Request
 			return true;
 		}
 		foreach ($GET as $idx => $each){
+			if ($idx < 1)
+				continue;
 			$this->GET[$idx]	= filter_var($each, FILTER_SANITIZE_URL );
 			if (!($idx % 2)) {
 			$this->PAIRGET[$each] = (($idx+1) < count($GET))
@@ -75,11 +77,19 @@ class Request
 	 */
 	private function setDefaultControllerAction(Array $GET)
 	{
-		$this->GET[0]	= (array_key_exists(0, $GET))?ucfirst($GET[0])."Controller":"IndexController";
-		$this->GET[1]	= (array_key_exists(1, $GET))?ucfirst($GET[1]):"Index";
-		$this->PAIRGET['controller'] = $this->GET[0];
-		$this->PAIRGET['action'] = $this->GET[1];
-		return (count($GET)==0)?false:true;
+		if (count($GET)==0){
+			$this->GET[0]	= "IndexController";
+			$this->GET[1]	= "Index";
+			$this->PAIRGET['controller'] = $this->GET[0];
+			$this->PAIRGET['action'] = $this->GET[1];
+			return true;
+		} else {
+			$this->GET[0]	= ucfirst($GET[0])."Controller";
+			$this->GET[1]	= ucfirst($GET[1]);
+			$this->PAIRGET['controller'] = $this->GET[0];
+			$this->PAIRGET['action'] = $this->GET[1];
+			return false;
+		}
 	}
 	/**
 	 * inform if the Request is a GET Request
