@@ -156,4 +156,12 @@ class Request
 	{
 		return (bool) count($this->GET)-2;
 	}
+	/**
+	 *
+	 * Return if have some POST Data
+	 */
+	public function hasParam()
+	{
+		return (bool) count($this->POST);
+	}
 }
