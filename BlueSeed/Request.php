@@ -152,9 +152,13 @@ class Request
 	 *
 	 * return if have some data setted in QueryString
 	 */
-	public function hasData()
+	public function hasData($name=null)
 	{
-		return (count($this->GET)-2 > 0)?true:false;
+		if (is_null($name)) {
+			return (count($this->GET)-2 > 0)?true:false;
+		} else {
+			return array_key_exists($name, $this->GET);
+		}
 	}
 	/**
 	 *
