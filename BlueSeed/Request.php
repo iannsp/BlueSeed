@@ -160,8 +160,12 @@ class Request
 	 *
 	 * Return if have some POST Data
 	 */
-	public function hasParam()
+	public function hasParam($name = null)
 	{
-		return (count($this->POST)>0)?true:false;
+		if (is_null($name)) {
+			return (count($this->POST)>0)?true:false;
+		} else {
+			return array_key_exists($name, $this->POST);
+		}
 	}
 }
