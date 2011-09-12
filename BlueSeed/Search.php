@@ -15,6 +15,13 @@ Class Search{
 	 * @var string
 	 */
 	private $sqlExp = "";
+
+	private $countis = false;
+	/**
+	 * the count constant
+	 * @var unknown_type
+	 */
+	const COUNT	= 0;
 	/**
 	 *
 	 * store a instance of VO with the parameter used in search
@@ -30,12 +37,15 @@ Class Search{
 	 */
 	private function __construct($vo, $fields='*'){
 		$this->vo = $vo;
-		if ($fields != '*'){
-			$fields = explode(',', $fields);
-			foreach ($fields as &$field){
-				$field = $vo->getTableName().".".trim($field);
-			}
-			$fields = implode(',', $fields);
+		if ($fields === Search::COUNT) {
+			$fields = " count({$vo->getIndexName()}) ";
+			$this->countis = true;
+		}
+		else if ($fields != '*'){
+				$fields = explode(',', $fields);
+				foreach ($fields as &$field){
+					$field = $vo->getTableName().".".trim($field);
+				}
 		}else
 			$fields = $vo->getTableName().'.*';
 
@@ -146,9 +156,15 @@ Class Search{
 		$data = Database::getInstance()->
 				get( $this->vo->getConnectionName() )->
 				get()->query($this->sqlExp);
-		$dados = $data->fetchAll( \PDO::FETCH_ASSOC );
+		if ( $this->countis)
+			$dados = $data->fetchAll( \PDO::FETCH_NUM);
+		else
+			$dados = $data->fetchAll( \PDO::FETCH_ASSOC );
 		}catch( \Exception $e){
 			throw New \Exception ("Erro ao executar a pesquisa");
+		}
+		if ($this->countis) {
+			return $dados[0][0];
 		}
 		$return = Array();
 		foreach ($dados as $idxRec => $Rec){
