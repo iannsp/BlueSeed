@@ -140,7 +140,9 @@ class Request
 	 */
 	public function getQuery($name)
 	{
-		if(array_key_exists($name, $this->PAIRGET)) {
+		if(	array_key_exists($name, $this->PAIRGET) &&
+			!is_null($this->PAIRGET[$name])
+			) {
 			return $this->PAIRGET[$name];
 		} else {
 			return (array_key_exists($name, $this->GET))
