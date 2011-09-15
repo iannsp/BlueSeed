@@ -34,7 +34,7 @@ class ApplicationController extends Controller {
 			try{
 				$controllername = "\\Application\\Controller\\".$this->controller;
 				$controller =  new $controllername($this->getRequest());
-				$controllermethod = $this->action;
+				$controllermethod = $controller->getRequest()->getQuery(1);
 				if( method_exists($controller, $controllermethod)) {
 					foreach ($this->observerCollection as $obs) {
 						$controller->attachObserver($obs);
