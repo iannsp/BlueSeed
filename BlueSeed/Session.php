@@ -2,17 +2,17 @@
 namespace BlueSeed;
 
 /**
- * 
+ *
  * This classe use Session to store and recovery data  ...
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
  * @package system
- * 
+ *
  *
  */
 class Session{
 	/**
-	 * 
+	 *
 	 * start a session
 	 * @access public
 	 * @return void
@@ -21,16 +21,16 @@ class Session{
 		session_start();
 	}
 	/**
-	 * 
+	 *
 	 * Destroy a session
 	 * @access public
 	 * @return void
-	 */	
+	 */
 	public static function destroy(){
 		session_destroy();
 	}
 	/**
-	 * 
+	 *
 	 * Save data without serialize it.
 	 * can be object with resources you can serialize, scalars or Array
 	 * @param string $name
@@ -41,14 +41,17 @@ class Session{
 		$_SESSION[$name] 	= 	$value;
 	}
 	/**
-	 * 
+	 *
 	 * retrieve a value saved with setVar ...
 	 * @see setVar
 	 * @param string $name
 	 * @return mixed
 	 */
 	public static function getVar($name){
-		return $_SESSION[$name];
+		if (array_key_exists($name, $_SESSION)) {
+			return $_SESSION[$name];
+		}
+		return null;
 	}
 	/**
 	 * retrieve a mixed saved with setObject
