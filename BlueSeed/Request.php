@@ -132,6 +132,14 @@ class Request
 	}
 
 	/**
+	 * get the POST data
+	 */
+	public function getParams()
+	{
+		return $this->POST;
+	}
+
+	/**
 	 * Get the Data from URL Request
 	 *
 	 * @param string $name
