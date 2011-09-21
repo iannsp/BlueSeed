@@ -67,7 +67,6 @@ abstract class Controller implements  Observable{
 	public function notifyObservers()
 	{
 		foreach ($this->observerCollection as $observer) {
-//			var_dump($observer);
 			$observer->update ($this);
 		}
 	}
