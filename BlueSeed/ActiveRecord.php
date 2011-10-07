@@ -45,8 +45,8 @@ abstract class ActiveRecord{
 	 *
 	 */
 	private function loadMeta(){
-		if ( count($this->fields) )
-			return;
+		$this->fields = Array();
+		$this->values = Array();
 		$rInstance = new \ReflectionClass($this);
 		$this->type	= 	$rInstance->getName();
 		$this->sa	= 	New \BlueSeed\SystemAnnotation( $rInstance->getName() );
