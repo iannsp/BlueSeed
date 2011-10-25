@@ -46,7 +46,8 @@ class ApplicationController extends Controller {
 					$this->notfound($this->controller, $this->action);
 				}
 			}catch(\Exception $E){
-				$this->notFound($this->controller, $this->action);
+				View::set('exception', $E);
+				View::render('system_exception');
 			}
 		}else{
 				$this->notFound($this->controller, $this->action);
