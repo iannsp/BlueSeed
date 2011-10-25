@@ -188,6 +188,7 @@ abstract class ActiveRecord{
 			$stmt->bindParam(":{$field}", $this->values[$idx]);
 		}
 		$stmt->execute();
+//		var_dump($stmt->ErrorInfo());
 		return Database::getInstance()->
 						get( $this->getConnectionName() )->
 						get()->

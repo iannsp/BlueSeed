@@ -46,6 +46,7 @@ Class Search{
 				foreach ($fields as &$field){
 					$field = $vo->getTableName().".".trim($field);
 				}
+				$fields = implode(',', $fields);
 		}else
 			$fields = $vo->getTableName().'.*';
 
