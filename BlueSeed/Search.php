@@ -154,15 +154,20 @@ Class Search{
 		$dataModel = get_class($this->vo);
 		$obj = new $dataModel();
 		try{
-		$data = Database::getInstance()->
+		$con = Database::getInstance()->
 				get( $this->vo->getConnectionName() )->
-				get()->query($this->sqlExp);
+				get();
+		$data = $con->query($this->sqlExp);
+		$err = $con->ErrorInfo();
+		if ($err[0]!='0000') {
+			throw New \PDOException($err[2], $err[0]);
+		}
 		if ( $this->countis)
 			$dados = $data->fetchAll( \PDO::FETCH_NUM);
 		else
 			$dados = $data->fetchAll( \PDO::FETCH_ASSOC );
 		}catch( \Exception $e){
-			throw New \Exception ("Erro ao executar a pesquisa");
+			throw New \Exception ("Erro ao executar a pesquisa: {$e->getMessage()}");
 		}
 		if ($this->countis) {
 			return $dados[0][0];
