@@ -187,8 +187,7 @@ abstract class ActiveRecord{
 		foreach ($this->fields as $idx => $field){
 			$stmt->bindParam(":{$field}", $this->values[$idx]);
 		}
-		$stmt->execute();
-//		var_dump($stmt->ErrorInfo());
+		$this->execute($stmt);
 		return Database::getInstance()->
 						get( $this->getConnectionName() )->
 						get()->
@@ -209,5 +208,13 @@ abstract class ActiveRecord{
 		$stmt->bindParam(":{$this->getIndexName()}", $value );
 		$stmt->execute();
 		$this->setIndexValue(null);
+	}
+	private function execute(&$stmt)
+	{
+		$stmt->execute();
+		$err = $stmt->ErrorInfo();
+		if ($err[0]!='0000') {
+			throw New \PDOException($err[2], $err[0]);
+		}
 	}
 }
