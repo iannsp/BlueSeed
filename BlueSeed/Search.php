@@ -121,7 +121,28 @@ Class Search{
 		$this->sqlExp .= "{$this->vo->getTableName()}.{$field} in (". $search->sqlExp .") ";
 		return $this;
 	}
-	/**
+	public function between($field, $de, $ate) {
+		$this->sqlExp .= "{$this->vo->getTableName()}.{$field} BETWEEN '{$de}' and '{$ate}' ";
+		return $this;
+	}
+	public function EqualMoreThen($field) {
+		$this->sqlExp.= " {$this->vo->getTableName()}.{$field} >= '{$this->vo->$field}' ";
+		return $this;
+	}
+	public function MoreThen($field) {
+		$this->sqlExp.= " {$this->vo->getTableName()}.{$field} > '{$this->vo->$field}' ";
+		return $this;
+	}
+	public function EqualLessThen($field) {
+		$this->sqlExp.= " {$this->vo->getTableName()}.{$field} <= '{$this->vo->$field}' ";
+		return $this;
+	}
+	public function LessThen($field) {
+		$this->sqlExp.= " {$this->vo->getTableName()}.{$field} < '{$this->vo->$field}' ";
+		return $this;
+	}
+
+		/**
 	 *
 	 * configure Subquerys
 	 * @param string $field a field name used to construct the 'in' SQL instruction
