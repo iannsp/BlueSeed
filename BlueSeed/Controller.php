@@ -1,5 +1,6 @@
 <?php
 namespace BlueSeed;
+use BlueSeed\Request;
 /**
  *
  * The controller to support interpretation of requests
@@ -46,6 +47,7 @@ abstract class Controller implements  Observable{
 
 	/**
 	 * Retrieve the Request Object
+	 * @return Request
 	 */
 	public function getRequest()
 	{
