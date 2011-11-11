@@ -5,7 +5,6 @@ namespace BlueSeed;
  * The Active Record make possible persist data from VO's
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
- * @package system
  *
  */
 
@@ -209,6 +208,13 @@ abstract class ActiveRecord{
 		$stmt->execute();
 		$this->setIndexValue(null);
 	}
+
+	/**
+	 *
+	 * @return bool
+	 * @param \PDO $stmt
+	 * @access private
+	 */
 	private function execute(&$stmt)
 	{
 		$stmt->execute();
