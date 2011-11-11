@@ -171,6 +171,8 @@ class Request
 	/**
 	 *
 	 * Return if have some POST Data
+	 * @param string $name
+	 * @return bool
 	 */
 	public function hasParam($name = null)
 	{
