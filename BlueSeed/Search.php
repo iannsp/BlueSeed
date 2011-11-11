@@ -99,6 +99,10 @@ Class Search{
 		$this->sqlExp.= " {$this->vo->getTableName()}.{$param} ilike '{$this->vo->$param}' ";
 		return $this;
 	}
+	public function order_by($param, $by = "ASC"){
+		$this->sqlExp.= " ORDER BY {$this->vo->getTableName()}.{$param} {$by} ";
+		return $this;
+	}
 	/**
 	 *
 	 * used to mapping common SQL instruction
