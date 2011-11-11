@@ -127,7 +127,8 @@ class Request
 	}
 
 	/**
-	 * get the POST data
+	 * get All the POST data
+	 * @return array
 	 */
 	public function getParams()
 	{
