@@ -6,7 +6,6 @@ namespace BlueSeed;
  * Administrate the DatabaseConnectionCollection
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
- * @package system
  *
  */
 class Database {
@@ -63,7 +62,7 @@ class Database {
 	 * @access public
 	 * @return DatabaseConnection
 	 */
-	public function get($name=null){
+	public function get($name="default"){
 		if ($name)
 			return $this->databaseCollection[ $name ];
 		else if ( count($this->databaseCollection)==1){
