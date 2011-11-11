@@ -123,7 +123,7 @@ class Request
 	 */
 	public function getParam($name)
 	{
-		return $this->POST[$name];
+		return isset($this->POST[$name])?$this->POST[$name]:NULL;
 	}
 
 	/**
