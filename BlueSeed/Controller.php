@@ -36,7 +36,6 @@ abstract class Controller implements  Observable{
 	/**
 	 * The constructor set the needed variables to operate the action
 	 * @param Request $R the request the Application Receive
-	 * @return void
 	 * @access public
 	 */
 	public function __construct(Request $R){
@@ -47,17 +46,27 @@ abstract class Controller implements  Observable{
 
 	/**
 	 * Retrieve the Request Object
-	 * @return Request
+	 * @return \BlueSeed\Request
 	 */
 	public function getRequest()
 	{
 		return $this->Request;
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see BlueSeed\Observer.Observable::attachObserver()
+	 */
 	public function attachObserver(Observer $o)
 	{
 		array_push($this->observerCollection, $o);
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see BlueSeed\Observer.Observable::detachObserver()
+	 */
+
 	public function detachObserver(Observer $o)
 	{
 		foreach ($this->observerCollection as $okey => $observer) {
@@ -66,6 +75,11 @@ abstract class Controller implements  Observable{
 				break;
 		}
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see BlueSeed\Observer.Observable::notifyObservers()
+	 */
 	public function notifyObservers()
 	{
 		foreach ($this->observerCollection as $observer) {
