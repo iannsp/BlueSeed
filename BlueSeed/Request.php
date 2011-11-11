@@ -46,7 +46,6 @@ class Request
 			$this->setDefaultControllerAction($GET);
 			return true;
 		}
-
 		$k = array_keys($_GET);
 		$GET = explode ('/', $k[0]);
 		if ($GET[count($GET)-1]=='') {
@@ -78,16 +77,12 @@ class Request
 	private function setDefaultControllerAction(Array $GET)
 	{
 		if (count($GET)==0){
-			$this->GET[0]	= "IndexController";
-			$this->GET[1]	= "Index";
-			$this->PAIRGET['controller'] = $this->GET[0];
-			$this->PAIRGET['action'] = $this->GET[1];
+			$this->PAIRGET['controller'] = $this->GET[0] = "IndexController";
+			$this->PAIRGET['action'] 	 = $this->GET[1] = "Index";
 			return true;
 		} else {
-			$this->GET[0]	= ucfirst($GET[0])."Controller";
-			$this->GET[1]	= ucfirst($GET[1]);
-			$this->PAIRGET['controller'] = $this->GET[0];
-			$this->PAIRGET['action'] = $this->GET[1];
+			$this->PAIRGET['controller'] = $this->GET[0] =ucfirst($GET[0])."Controller";
+			$this->PAIRGET['action'] = $this->GET[1] = ucfirst($GET[1]);
 			return false;
 		}
 	}
