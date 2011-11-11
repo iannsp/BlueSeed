@@ -157,6 +157,8 @@ class Request
 	/**
 	 *
 	 * return if have some data setted in QueryString
+	 * @param string $name
+	 * @return bool
 	 */
 	public function hasData($name=null)
 	{
