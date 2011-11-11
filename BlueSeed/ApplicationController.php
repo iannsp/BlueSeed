@@ -18,6 +18,7 @@ class ApplicationController extends Controller {
 	/**
 	 *
 	 * The constructor of Controller set type of ObserverCollection
+	 * @param \BlueSeed\Request $R
 	 */
 	public function __construct(Request $R){
 		parent::__construct($R);
@@ -53,9 +54,23 @@ class ApplicationController extends Controller {
 				$this->notFound($this->controller, $this->action);
 		}
 	}
+	/**
+	 *
+	 * verify if controller exist
+	 * @param string $controllername
+	 * @return bool
+	 * @access private
+	 */
 	private function hasController($controllername){
 		return file_exists( APP_PATH."Controller/{$controllername}.php" );
 	}
+	/**
+	 *
+	 * Default behavior if controller and method does not exist
+	 * @param string $controller
+	 * @param string $action
+	 * @return void
+	 */
 	private function notfound($controller, $action){
 		\BlueSeed\View::set('controller', $controller);
 		\BlueSeed\View::set('action', $action);
