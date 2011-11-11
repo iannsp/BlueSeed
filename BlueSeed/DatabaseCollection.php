@@ -2,16 +2,15 @@
 namespace BlueSeed;
 
 /**
- * 
+ *
  * This class storage all Database Instances and manage It
  * @author ivonascimento <ivo@o8o.com.br>
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD
- * @package system
  *
  */
 class DatabaseCollection implements \ArrayAccess, \Iterator, \Countable{
 	/**
-	 * 
+	 *
 	 * the container where DatabaseConnections are stored
 	 * @var Array
 	 * @access private
@@ -87,7 +86,7 @@ class DatabaseCollection implements \ArrayAccess, \Iterator, \Countable{
 	 */
     public function valid() {
         return $this->current() !== false;
-    }    
+    }
 	/**
 	 * (non-PHPdoc)
 	 * @see Countable::count()
