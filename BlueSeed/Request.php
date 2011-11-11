@@ -160,7 +160,7 @@ class Request
 	 * @param string $name
 	 * @return bool
 	 */
-	public function hasData($name=null)
+	public function hasinQuery($name=null)
 	{
 		if (is_null($name)) {
 			return (count($this->GET)-2 > 0)?true:false;
