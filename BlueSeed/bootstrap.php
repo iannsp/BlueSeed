@@ -1,8 +1,19 @@
 <?php
+/*
+ * get information about directory BS Framework are
+ */
 define( 'SYS_PATH', dirname(__FILE__) );
 $pathinfo 	=	pathinfo(SYS_PATH);
 
+/*
+ * load the BS Framework configuration
+ */
 require_once SYS_PATH.'/Config/system.conf.php';
+/**
+ *
+ * autoload to BS Framework Objects
+ * @param string $name
+ */
 function _bsautoload_($name) {
 	global $pathinfo;
 	$searchpath 	= 	explode('\\', $name);
@@ -17,4 +28,7 @@ function _bsautoload_($name) {
 	}
 }
 
+/**
+ * register this autoload function in spl_registers
+ */
 spl_autoload_register('_bsautoload_');
