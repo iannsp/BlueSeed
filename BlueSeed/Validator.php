@@ -6,11 +6,11 @@
  * 
  */
 abstract class Validator {
-	
-	function __construct() {
-	
-	}
-	
+    
+    function __construct() {
+    
+    }
+    
 }
 
 ?>

@@ -14,77 +14,77 @@ use BlueSeed\Observer\Observable;
 use BlueSeed\Observer\Observer;
 
 abstract class Controller implements  Observable{
-	/**
-	 *
-	 * the observer Collection to ApplicationController
-	 * @var ObserverCollection
-	 */
-	protected $observerCollection=Array();
+    /**
+     *
+     * the observer Collection to ApplicationController
+     * @var ObserverCollection
+     */
+    protected $observerCollection=Array();
 
-	/**
-	 * The name of requested Controller
-	 * @var String
-	 * @access protected
-	 */
-	protected $controller;
-	/**
-	 * the name of requested Action
-	 * @var String
-	 * @access protected
-	 */
-	protected $action;
-	/**
-	 * The constructor set the needed variables to operate the action
-	 * @param Request $R the request the Application Receive
-	 * @access public
-	 */
-	public function __construct(Request $R){
-		$this->Request 		= $R;
-		$this->controller 	= $this->Request->getQuery(0);
-		$this->action		= $this->Request->getQuery(1);
-	}
+    /**
+     * The name of requested Controller
+     * @var String
+     * @access protected
+     */
+    protected $controller;
+    /**
+     * the name of requested Action
+     * @var String
+     * @access protected
+     */
+    protected $action;
+    /**
+     * The constructor set the needed variables to operate the action
+     * @param Request $R the request the Application Receive
+     * @access public
+     */
+    public function __construct(Request $R){
+        $this->Request         = $R;
+        $this->controller     = $this->Request->getQuery(0);
+        $this->action        = $this->Request->getQuery(1);
+    }
 
-	/**
-	 * Retrieve the Request Object
-	 * @return \BlueSeed\Request
-	 */
-	public function getRequest()
-	{
-		return $this->Request;
-	}
+    /**
+     * Retrieve the Request Object
+     * @return \BlueSeed\Request
+     */
+    public function getRequest()
+    {
+        return $this->Request;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see BlueSeed\Observer.Observable::attachObserver()
-	 */
-	public function attachObserver(Observer $o)
-	{
-		array_push($this->observerCollection, $o);
-	}
+    /**
+     * (non-PHPdoc)
+     * @see BlueSeed\Observer.Observable::attachObserver()
+     */
+    public function attachObserver(Observer $o)
+    {
+        array_push($this->observerCollection, $o);
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see BlueSeed\Observer.Observable::detachObserver()
-	 */
+    /**
+     * (non-PHPdoc)
+     * @see BlueSeed\Observer.Observable::detachObserver()
+     */
 
-	public function detachObserver(Observer $o)
-	{
-		foreach ($this->observerCollection as $okey => $observer) {
-			if ($observer === $o)
-				unset($this->observerCollection[$okey]);
-				break;
-		}
-	}
+    public function detachObserver(Observer $o)
+    {
+        foreach ($this->observerCollection as $okey => $observer) {
+            if ($observer === $o)
+                unset($this->observerCollection[$okey]);
+                break;
+        }
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see BlueSeed\Observer.Observable::notifyObservers()
-	 */
-	public function notifyObservers()
-	{
-		foreach ($this->observerCollection as $observer) {
-			$observer->update ($this);
-		}
-	}
+    /**
+     * (non-PHPdoc)
+     * @see BlueSeed\Observer.Observable::notifyObservers()
+     */
+    public function notifyObservers()
+    {
+        foreach ($this->observerCollection as $observer) {
+            $observer->update ($this);
+        }
+    }
 
 }

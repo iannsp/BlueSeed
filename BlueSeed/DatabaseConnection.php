@@ -11,30 +11,30 @@ namespace BlueSeed;
 
 class DatabaseConnection {
 
-	/**
-	 *
-	 * the PDO instance are set here
-	 * @var PDO
-	 */
-	private $conn;
+    /**
+     *
+     * the PDO instance are set here
+     * @var PDO
+     */
+    private $conn;
 
-	/**
-	 *
-	 * the constructor of classe where the configuration are setted
-	 * @param \PDO $objconn
-	 * @return void
-	 */
-	function __construct( \PDO $objconn) {
-			$this->conn = $objconn;
-	}
-	/**
-	 *
-	 * retrieve the PDO Instance
-	 * @return PDO
-	 */
-	public function get(){
-		return $this->conn;
-	}
+    /**
+     *
+     * the constructor of classe where the configuration are setted
+     * @param \PDO $objconn
+     * @return void
+     */
+    function __construct( \PDO $objconn) {
+            $this->conn = $objconn;
+    }
+    /**
+     *
+     * retrieve the PDO Instance
+     * @return PDO
+     */
+    public function get(){
+        return $this->conn;
+    }
 }
 
 ?>
