@@ -44,7 +44,7 @@ Class Search{
         else if ($fields != '*'){
                 $fields = explode(',', $fields);
                 foreach ($fields as &$field){
-                    $field = $vo->getTableName().".".trim($field);
+                    $field = trim($field);
                 }
                 $fields = implode(',', $fields);
         }else
@@ -171,7 +171,7 @@ Class Search{
      * @return PDOStatement
      * @access public
      */
-    public function exec(){
+    public function exec($asStdClass = false){
         $dataModel = get_class($this->vo);
         $obj = new $dataModel();
         try{
@@ -195,7 +195,7 @@ Class Search{
         }
         $return = Array();
         foreach ($dados as $idxRec => $Rec){
-            $obj = new $dataModel();
+            $obj = (!$asStdClass)?new $dataModel(): New \StdClass();
             foreach ($Rec as $idx => $value){
                     $obj->$idx = $value;
                 }
