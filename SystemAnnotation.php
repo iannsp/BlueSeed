@@ -13,12 +13,28 @@ namespace BlueSeed;
 class SystemAnnotation {
     private static $instance;
     private $dados = Array();
-    private $method;
+    private $methodName;
+    private $type;
+    private $propertyName;
     private $class;
-    public function __construct($class, $method=null){
-        $this->method = $method;
-        $this->class = $class;
+    private function __construct($class,$type, $method=null, $property=null){
+    	$this->type			= $type;
+        $this->methodName 	= $method;
+        $this->propertyName = $method;
+        $this->class 		= $class;
         $this->parse();
+    }
+    public static function createasProperty($class, $propertyName)
+    {
+		return New SystemAnnotation($class, "property", NULL, $propertyName);
+    }
+    public static function createasMethod($class, $methodName)
+    {
+		return New SystemAnnotation($class, "method", $methodName);
+    }
+    public static function createasClass($class)
+    {
+		return New SystemAnnotation($class, "class");
     }
 
     private function getReflectionClass(){
