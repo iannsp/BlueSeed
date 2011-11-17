@@ -36,6 +36,16 @@ abstract class ActiveRecord{
      * @access private
      */
     private $sa;
+
+
+    public function getMeta()
+    {
+    	$meta 					= New \StdClass();
+    	$meta->fields 			= $this->fields;
+		$meta->type				= $this->type;
+		$meta->systemAnnotation	= $this->sa;
+    	return $meta;
+    }
     /**
      *
      * This function load the Metadata from instance
@@ -48,7 +58,7 @@ abstract class ActiveRecord{
         $this->values = Array();
         $rInstance = new \ReflectionClass($this);
         $this->type    =     $rInstance->getName();
-        $this->sa    =     New \BlueSeed\SystemAnnotation( $rInstance->getName() );
+        $this->sa    =     \BlueSeed\SystemAnnotation::createasClass( $rInstance->getName() );
         $properties = $rInstance->GetProperties( \ReflectionProperty::IS_PUBLIC);
         foreach ($properties as $name => $property){
             array_push($this->fields, ($fname= $property->getName()) );
