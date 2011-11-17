@@ -11,7 +11,6 @@ namespace BlueSeed;
  */
 
 class SystemAnnotation {
-    private static $instance;
     private $dados = Array();
     private $methodName;
     private $type;
@@ -38,16 +37,38 @@ class SystemAnnotation {
     }
 
     private function getReflectionClass(){
-        if ($this->method)
-            $reflection = new \ReflectionMethod($this->class, $this->method);
-        else
-            $reflection = new \ReflectionClass($this->class);
+    	switch($this->type) {
+    		case "class" :
+            	$reflection = new \ReflectionClass($this->class);
+            	break;
+    		case "property":
+            	$reflection = new \ReflectionProperty($this->class, $this->propertyName);
+    			break;
+    		case "method":
+            	$reflection = new \ReflectionMethod($this->class, $this->methodName);
+    			break;
+    	}
         return $reflection;
     }
-    public function setMethod($methodname){
-        $this->method = $methodname;
+    public function updateTarget($target)
+    {
+    	$update = "update".ucfirst( $this->type);
+		$this->$update($target);
         $this->parse();
     }
+    private function updateMethod($methodName)
+    {
+		$this->methodName 		= $methodName;
+    }
+    private function updateClass($class)
+    {
+		$this->class 			= $class;
+    }
+    private function updateProperty($propertyName)
+    {
+		$this->propertyName		= $propertyName;
+    }
+
     private function parse(){
         $docbloc = $this->getReflectionClass()->getDocComment();
         $dados = explode("\n", $docbloc);
