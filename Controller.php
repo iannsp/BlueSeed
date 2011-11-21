@@ -56,8 +56,7 @@ abstract class Controller implements  Observable{
 			else
 				$objData = $sa->get('@scaffold')."Vo";
 			$objData = New $objData();
-			Scaffold::creator($objData, $R)->make();
-
+			Scaffold::creator($objData, $this->getRequest())->make();
     	}
     }
 
