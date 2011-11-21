@@ -35,18 +35,16 @@ class ApplicationController extends Controller {
             try{
                 $controllername = "\\Application\\Controller\\".$this->controller;
                 $controller =  new $controllername($this->getRequest());
-                $controllermethod = $controller->getRequest()->getQuery(1);
-                if( method_exists($controller, $controllermethod)) {
+                $controllermethod = $controller->getAction();
                     foreach ($this->observerCollection as $obs) {
                         $controller->attachObserver($obs);
                     }
                     $controller->notifyObservers();
                     $controller->$controllermethod();
-                }
-                else {
-                    $this->notfound($this->controller, $this->action);
-                }
-            }catch(\Exception $E){
+
+            }catch(\ReflectionException $Ecall){
+				$controller->Index();
+        	}catch(\Exception $E){
                 View::set('exception', $E);
                 View::render('system_exception');
             }
