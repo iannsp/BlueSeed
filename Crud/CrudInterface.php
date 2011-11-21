@@ -1,8 +1,6 @@
 <?php
 
-/**
- *
- */
+namespace BlueSeed\Crud;
 use BlueSeed\ActiveRecord;
 use BlueSeed\Request;
 interface CrudInterface {
@@ -10,35 +8,29 @@ interface CrudInterface {
 	 *
 	 * Construct the object
 	 * @param ActiveRecord $dataObject Used to know what Object to persist
-	 * @param Request $request Used to know what do(action)
 	 */
-	public function __construct(ActiveRecord $dataObject, Request $request);
+	public function __construct(ActiveRecord $dataObject);
 	/**
 	 *
 	 * Persist the data into persistence place
+	 * @param Array $postData
 	 */
-	public function create	();
+	public function create	(Array $postData);
 	/**
 	 *
 	 * Read the DataObject and create the representation model using view
 	 */
-	public function read	();
+	public function read	(Array $findData);
 	/**
 	 *
 	 * Update the dataObject into persistence place
 	 */
-	public function update	();
+	public function update	(Array $postData);
 	/**
 	 *
 	 * delete the dataObject into persistence place
 	 */
-	public function delete	();
-	/**
-	 *
-	 * Solve what action you need do based on Request Object
-	 * You can Use this to solve or execute the method you know is needed
-	 */
-	public function make	();
+	public function delete	(Array $findData);
 }
 
 ?>
