@@ -40,6 +40,7 @@ abstract class ActiveRecord{
 
     public function getMeta()
     {
+        $this->loadMeta();
     	$meta 					= New \StdClass();
     	$meta->fields 			= $this->fields;
 		$meta->type				= $this->type;
