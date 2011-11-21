@@ -43,6 +43,23 @@ abstract class Controller implements  Observable{
         $this->controller     = $this->Request->getQuery(0);
         $this->action        = $this->Request->getQuery(1);
     }
+	/**
+	 *
+	 * This is the main Controller Method
+	 */
+    public function Index()
+    {
+    	$sa = SystemAnnotation::createasClass($this);
+    	if($sa->exists('@scaffold')){
+    		if (defined('VO_NAMESPACE'))
+				$objData = VO_NAMESPACE.$sa->get('@scaffold')."Vo";
+			else
+				$objData = $sa->get('@scaffold')."Vo";
+			$objData = New $objData();
+			Scaffold::creator($objData, $R)->make();
+
+    	}
+    }
 
     /**
      *
