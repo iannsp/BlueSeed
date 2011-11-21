@@ -45,6 +45,14 @@ abstract class Controller implements  Observable{
     }
 
     /**
+     *
+     * Return the action of Controller
+     */
+	public function getAction()
+	{
+		return $this->action;
+	}
+    /**
      * Retrieve the Request Object
      * @return \BlueSeed\Request
      */
