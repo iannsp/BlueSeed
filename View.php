@@ -37,7 +37,6 @@ Final class View{
      */
     private static function getRenderPath($__name__, $path= VIEW_PATH ){
         $__name__ = str_replace('_','/', $__name__);
-        echo $path."{$__name__}.php<Br>";
         return $path."{$__name__}.php" ;
     }
     /**
