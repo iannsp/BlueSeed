@@ -1,5 +1,9 @@
 <?php
 namespace BlueSeed;
+use BlueSeed\Scaffold\Template;
+
+use BlueSeed\Scaffold\Scaffold;
+
 use BlueSeed\Request;
 /**
  *
@@ -39,9 +43,9 @@ abstract class Controller implements  Observable{
      * @access public
      */
     public function __construct(Request $R){
-        $this->Request         = $R;
-        $this->controller     = $this->Request->getQuery(0);
-        $this->action        = $this->Request->getQuery(1);
+        $this->Request         	= $R;
+        $this->controller     	= $this->Request->getQuery(0);
+        $this->action       	= $this->Request->getQuery(1);
     }
 	/**
 	 *
@@ -56,10 +60,16 @@ abstract class Controller implements  Observable{
 			else
 				$objData = $sa->get('@scaffold')."Vo";
 			$objData = New $objData();
-			Scaffold::creator($objData, $this->getRequest())->make();
+			Scaffold::creator(	$objData,
+								$this->getRequest(),
+								New Template(str_replace("Controller","",$this->getName()))
+							)->make();
     	}
     }
-
+	public function getName()
+	{
+		return $this->controller;
+	}
     /**
      *
      * Return the action of Controller
