@@ -23,10 +23,20 @@ class Scaffold {
 	{
 		return New Scaffold($objData, $request, $tmpl);
 	}
-	public function create()
+	public function create($newrecord = false)
 	{
-		$crud = New Crud($this->objData);
-		$crud->create($this->request->getParams());
+		if (!$newrecord){
+			$crud = New Crud($this->objData);
+			$crud->create($this->request->getParams());
+			$this->objData->$indexname = null;
+			return $this->index();
+		}else {
+			$template = $this->template;
+			$indexname = $this->objData->getIndexName();
+			$template->setTemplateObject($this->objData);
+			$template->setData(Array($this->objData));
+			$template->form();
+		}
 	}
 	public function read()
 	{
@@ -41,15 +51,11 @@ class Scaffold {
 			$template->setData($this->objData->fetchAll());
 			$template->index();
 		}
-		$crud = New Crud($this->objData);
-		$crud->read(Array());
-
 	}
 	public function update()
 	{
 		echo "Em Atualizar<br/>";
 		$crud = New Crud($this->objData);
-//		var_dump($this->request->getParams());
 		$crud->update($this->request->getParams());
 		$indexname 	= $this->objData->getIndexName();
 		$this->objData->$indexname = null;
@@ -69,7 +75,8 @@ class Scaffold {
 		$indexname 	= $this->objData->getIndexName();
 		$idxval 	= $this->request->getQuery(2);
 		$idxname 	= $this->request->getQuery(1);
-
+//		var_dump($idxname );
+//		var_dump($this->objData->getIndexName());
 		if (!is_null($idxval)){
 			$this->objData = $this->objData->find($idxval);
 		}
@@ -82,8 +89,9 @@ class Scaffold {
 			}else {
 				return $this->create();
 			}
-		}else if (!is_null($idxval)){
-			return $this->read();
+		}else if ($idxname == $this->objData->getIndexName()
+		&& is_null($idxval)){
+			return $this->create(true);
 		}else {
 			return $this->read();
 		}
