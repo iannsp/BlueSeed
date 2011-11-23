@@ -26,7 +26,7 @@ class Crud implements CrudInterface {
         foreach ($postData as $k => $datum) {
         	if ($k == $idxname )
         		continue;
-        	$this->dataObject	= $datum;
+        	$this->dataObject->$k	= $datum;
         }
         $this->dataObject->Save();
 	}
@@ -41,10 +41,15 @@ class Crud implements CrudInterface {
 	}
 	public function update	(Array $postData)
 	{
-		$this->create();
+		$this->create($postData);
 	}
 	public function delete	(Array $findData)
 	{
-        $this->dataObject->delete();
+		$idxname	= $this->dataObject->getIndexName();
+		$meta		= $this->dataObject->getMeta();
+		if (array_key_exists($idxname, $findData)) {
+			$data = $this->dataObject->find( $findData[$idxname]);
+			$data->delete();
+		}
 	}
 }
