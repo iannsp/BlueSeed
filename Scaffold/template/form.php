@@ -26,7 +26,7 @@
 }
 </style>
 <div ="bsscaffold">
-<h3>Editando Dados de <?php echo $bsscaffold_cname; ?></h3>
+<h3><?php echo  "Dados de {$bsscaffold_cname}"; ?></h3>
 <div id="bsscaffold_data">
 		<form method="POST" id="bsscaffold_form"  name="bsscaffold_form"
 		action="<?php echo "/{$bsscaffold_cname}/{$bsscaffold_indexname}/{$bsscaffold_data->$bsscaffold_indexname}";?>"

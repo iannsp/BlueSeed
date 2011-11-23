@@ -28,7 +28,7 @@
 </style>
 <div id="bsscaffold">
 	<div class="bsscaffold_navbar">
-		<div class="bsscaffold_navbar_item" action='create' title='Incluir Novo'>Novo</div>
+		<div class="bsscaffold_navbar_item bsscaffold_action" action='<?php echo "/{$bsscaffold_cname}/{$bsscaffold_indexname}";?>' title='Incluir Novo'>Novo</div>
 		<!--  div class="bsscaffold_navbar_item" action='' title='Apagar Selecionados'>Apagar</div-->
 		<div class="bsscaffold_navbar_item"> <input type='text' size='20' name='q' id='q'><input type='button' value='Pesquisar'></div>
 	</div>
