@@ -172,7 +172,7 @@ abstract class ActiveRecord{
         $updateTerm = Array();
         foreach ($this->fields as $idx => $field){
             if ($field != $this->getIndexName() )
-                array_push ($updateTerm, "{$field}= :{$field}");
+                array_push ($updateTerm, "`{$field}`= :{$field}");
         }
         $updatestr =  implode(",",$updateTerm);
         $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
@@ -182,7 +182,7 @@ abstract class ActiveRecord{
             if ($field != $this->getIndexName() )
             $stmt->bindParam(":{$field}", $this->values[$idx]);
         }
-        $stmt->execute();
+        return $this->execute($stmt);
     }
     /**
      *
@@ -216,7 +216,7 @@ abstract class ActiveRecord{
         );
         $value = $this->getIndexValue();
         $stmt->bindParam(":{$this->getIndexName()}", $value );
-        $stmt->execute();
+        $this->execute($stmt);
         $this->setIndexValue(null);
     }
 
