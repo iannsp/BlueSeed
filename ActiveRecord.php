@@ -178,7 +178,7 @@ abstract class ActiveRecord{
         $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
             "update {$this->getTableName()} set {$updatestr} where {$this->getIndexName()} = '{$this->getIndexValue()}';"
         );
-        foreach ($this->fields as $idx => $field){
+        foreach ($this->_fields as $idx => $field){
             if ($field != $this->getIndexName() )
             $stmt->bindParam(":{$field}", $this->values[$idx]);
         }
@@ -192,9 +192,9 @@ abstract class ActiveRecord{
      */
     private function insert(){
         $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
-            "insert into {$this->getTableName()} (".implode(",",$this->fields).") values(:".implode(",:",$this->fields).");"
+            "insert into {$this->getTableName()} (".implode(",",$this->_fields).") values(:".implode(",:",$this->_fields).");"
         );
-        foreach ($this->fields as $idx => $field){
+        foreach ($this->_fields as $idx => $field){
             $stmt->bindParam(":{$field}", $this->values[$idx]);
         }
         $this->execute($stmt);
