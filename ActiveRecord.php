@@ -14,37 +14,37 @@ abstract class ActiveRecord{
      * @var Array $fields
      * @access private
     */
-    private $fields = Array();
+    private $_fields = Array();
     /**
      *
      * reflection of VO instance save the fields values here
      * @var Array $values
      * @access private
      */
-    private $values = Array();
+    private $_values = Array();
     /**
      *
      * the VO Name retrieved using reflectoion
      * @var string $type
      * @access private
      */
-    private $type;
+    private $_type;
     /**
      *
      * the instance of System Annotation Used to return meta data from instance
      * @var SystemAnnotation $sa
      * @access private
      */
-    private $sa;
+    private $_sa;
 
 
     public function getMeta()
     {
         $this->loadMeta();
     	$meta 					= New \StdClass();
-    	$meta->fields 			= $this->fields;
-		$meta->type				= $this->type;
-		$meta->systemAnnotation	= $this->sa;
+    	$meta->fields 			= $this->_fields;
+		$meta->type				= $this->_type;
+		$meta->systemAnnotation	= $this->_sa;
     	return $meta;
     }
     /**
@@ -55,15 +55,15 @@ abstract class ActiveRecord{
      *
      */
     private function loadMeta(){
-        $this->fields = Array();
-        $this->values = Array();
+        $this->_fields = Array();
+        $this->_values = Array();
         $rInstance = new \ReflectionClass($this);
-        $this->type    =     $rInstance->getName();
-        $this->sa    =     \BlueSeed\SystemAnnotation::createasClass( $rInstance->getName() );
+        $this->_type    =     $rInstance->getName();
+        $this->_sa    =     \BlueSeed\SystemAnnotation::createasClass( $rInstance->getName() );
         $properties = $rInstance->GetProperties( \ReflectionProperty::IS_PUBLIC);
         foreach ($properties as $name => $property){
-            array_push($this->fields, ($fname= $property->getName()) );
-            array_push($this->values, $this->$fname )  ;
+            array_push($this->_fields, ($fname= $property->getName()) );
+            array_push($this->_values, $this->$fname )  ;
         }
     }
     /**
@@ -74,7 +74,7 @@ abstract class ActiveRecord{
      */
     public function getIndexName(){
         $this->loadMeta();
-        return $this->sa->get('@indexName');
+        return $this->_sa->get('@indexName');
     }
     /**
      *
@@ -95,7 +95,7 @@ abstract class ActiveRecord{
      */
     public function getTableName(){
         $this->loadMeta();
-        return $this->sa->get('@tableName');
+        return $this->_sa->get('@tableName');
     }
     /**
      *
@@ -105,7 +105,7 @@ abstract class ActiveRecord{
      */
     public function getConnectionName(){
         $this->loadMeta();
-        return $this->sa->get('@connectionName');
+        return $this->_sa->get('@connectionName');
     }
     /**
      *
@@ -170,7 +170,7 @@ abstract class ActiveRecord{
      */
     private function update(){
         $updateTerm = Array();
-        foreach ($this->fields as $idx => $field){
+        foreach ($this->_fields as $idx => $field){
             if ($field != $this->getIndexName() )
                 array_push ($updateTerm, "`{$field}`= :{$field}");
         }
