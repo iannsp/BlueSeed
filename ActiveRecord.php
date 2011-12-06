@@ -1,4 +1,5 @@
 <?php
+use BlueSeed\ActiveRecordHook;
 namespace BlueSeed;
 /**
  *
@@ -15,6 +16,14 @@ abstract class ActiveRecord{
      * @access private
     */
     private $_fields = Array();
+
+
+    /**
+     * All hooks you need to malipulate records
+     * @var ActiveRecordHook
+     */
+    private $hooks;
+
     /**
      *
      * reflection of VO instance save the fields values here
@@ -37,6 +46,16 @@ abstract class ActiveRecord{
      */
     private $_sa;
 
+    /**
+     *
+     * attach the Hook to malipulate
+     * @param ActiveRecordHook $arHooks
+     * @return boolean
+     */
+    public function attachHooks(ActiveRecordHook $arHooks)
+    {
+		$this->hooks = $arHooks;
+    }
 
     public function getMeta()
     {
