@@ -199,7 +199,7 @@ abstract class ActiveRecord{
         );
         foreach ($this->_fields as $idx => $field){
             if ($field != $this->getIndexName() )
-            $stmt->bindParam(":{$field}", $this->values[$idx]);
+            $stmt->bindParam(":{$field}", $this->_values[$idx]);
         }
         return $this->execute($stmt);
     }
@@ -214,7 +214,7 @@ abstract class ActiveRecord{
             "insert into {$this->getTableName()} (".implode(",",$this->_fields).") values(:".implode(",:",$this->_fields).");"
         );
         foreach ($this->_fields as $idx => $field){
-            $stmt->bindParam(":{$field}", $this->values[$idx]);
+            $stmt->bindParam(":{$field}", $this->_values[$idx]);
         }
         $this->execute($stmt);
         return Database::getInstance()->
