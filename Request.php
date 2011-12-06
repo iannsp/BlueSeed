@@ -46,11 +46,15 @@ class Request
             $GET=ARRAY('Index/Index'=>'');
         }
         $k = array_keys($GET);
+        if ($k[0]=="0"){
+            $GET = ARRAY($GET[0]=>'');
+            $k=array_keys($GET);
+        }
         $GET = explode ('/', $k[0]);
         if ($GET[count($GET)-1]=='') {
             array_pop($GET);
         }
-        $this->setDefaultControllerAction($GET)) {
+        $this->setDefaultControllerAction($GET);
         foreach ($GET as $idx => $each){
             if ($idx < 1)
                 continue;
