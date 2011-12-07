@@ -26,8 +26,6 @@ class ActiveRecordHook {
 	private function validateType($type)
 	{
 		return (array_key_exists($type, $this->hook));
-
-
 	}
 	public function add($type, \Closure $callback)
 	{
