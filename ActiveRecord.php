@@ -178,18 +178,20 @@ abstract class ActiveRecord{
      * @return void
      */
     public function save(){
-        $this->loadMeta();
+    	self::$_hooks->exec(ActiveRecordHook::AFTERSAVE, $this);
+    	$this->loadMeta();
         if (is_null($this->getIndexValue())){
             $id = $this->insert();
             $this->setIndexValue($id);
         }
         else
             $this->update();
+        self::$_hooks->exec(ActiveRecordHook::BEFORESAVE, $this);
     }
     /**
      *
      * Update a record represented by VO using the index value
-     * @return void
+     * @return voidAFTERINSERT
      * @access private
      */
     private function update(){
@@ -218,17 +220,20 @@ abstract class ActiveRecord{
      * @return void
      */
     private function insert(){
-        $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
+    	self::$_hooks->exec(ActiveRecordHook::BEFOREINSERT, $this);
+    	$stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
             "insert into {$this->getTableName()} (".implode(",",$this->_fields).") values(:".implode(",:",$this->_fields).");"
         );
         foreach ($this->_fields as $idx => $field){
             $stmt->bindParam(":{$field}", $this->_values[$idx]);
         }
         $this->execute($stmt);
-        return Database::getInstance()->
+        $resultado = Database::getInstance()->
                         get( $this->getConnectionName() )->
                         get()->
                         lastInsertId("{$this->getTableName()}_{$this->getIndexName()}_seq");
+    	self::$_hooks->exec(ActiveRecordHook::AFTERINSERT, $this);
+        return $resultado;
     }
     /**
      *
@@ -237,7 +242,8 @@ abstract class ActiveRecord{
      * @return void
      */
     public function delete(){
-        $this->loadMeta();
+    	self::$_hooks->exec(ActiveRecordHook::BEFOREDELETE, $this);
+    	$this->loadMeta();
         $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
             "delete from {$this->getTableName()} where {$this->getIndexName()} = :{$this->getIndexName()};"
         );
@@ -245,6 +251,7 @@ abstract class ActiveRecord{
         $stmt->bindParam(":{$this->getIndexName()}", $value );
         $this->execute($stmt);
         $this->setIndexValue(null);
+    	self::$_hooks->exec(ActiveRecordHook::AFTERDELETE, $this);
     }
 
     /**
