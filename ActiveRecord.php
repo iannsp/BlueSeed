@@ -22,7 +22,7 @@ abstract class ActiveRecord{
      * All hooks you need to malipulate records
      * @var ActiveRecordHook
      */
-    private static $hooks;
+    private static $_hooks;
 
     /**
      *
@@ -48,8 +48,8 @@ abstract class ActiveRecord{
 
     public function __construct()
     {
-    	if (is_null(self::$hooks ))
-			self::$hooks = New ActiveRecordHook();
+    	if (is_null(self::$_hooks ))
+			self::$_hooks = New ActiveRecordHook();
     }
     /**
      *
@@ -59,7 +59,7 @@ abstract class ActiveRecord{
      */
     public static function attachHooks(ActiveRecordHook $arHooks)
     {
-		self::$hooks = $arHooks;
+		self::$_hooks = $arHooks;
     }
 
     public function getMeta()
@@ -193,7 +193,7 @@ abstract class ActiveRecord{
      * @access private
      */
     private function update(){
-    	self::$hooks->exec(ActiveRecordHook::BEFOREUPDATE, $this);
+    	self::$_hooks->exec(ActiveRecordHook::BEFOREUPDATE, $this);
         $updateTerm = Array();
         foreach ($this->_fields as $idx => $field){
             if ($field != $this->getIndexName() )
@@ -208,7 +208,7 @@ abstract class ActiveRecord{
             $stmt->bindParam(":{$field}", $this->_values[$idx]);
         }
         $resultado = $this->execute($stmt);
-    	self::$hooks->exec(ActiveRecordHook::BEFOREUPDATE, $this);
+    	self::$_hooks->exec(ActiveRecordHook::BEFOREUPDATE, $this);
     	return $resultado;
     }
     /**
