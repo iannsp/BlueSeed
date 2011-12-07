@@ -19,14 +19,9 @@ class ActiveRecordHook {
 	private $hook = Array();
 	public function __construct()
 	{
-		$this->hook [1] = Array ();
-		$this->hook [2] = Array ();
-		$this->hook [3] = Array ();
-		$this->hook [4] = Array ();
-		$this->hook [5] = Array ();
-		$this->hook [6] = Array ();
-		$this->hook [7] = Array ();
-		$this->hook [8] = Array ();
+		for ($i=1; $i<=8; $i++){
+			$this->hook [$i] = Array ();
+		}
 	}
 	public function add($type, \Closure $callback)
 	{
