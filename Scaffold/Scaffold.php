@@ -13,11 +13,16 @@ class Scaffold {
 	private $objData;
 	private $request;
 	private $template;
+	private $ACL;
 	function __construct(ActiveRecord $objData, Request $request, Template $tmpl)
 	{
 		$this->objData	= $objData;
 		$this->request	= $request;
 		$this->template = $tmpl;
+	}
+	public function attachAcl(AccessControllable $acl){
+		$this->ACL = $acl;
+		return $this;
 	}
 	public static function creator(ActiveRecord $objData, Request $request, Template $tmpl)
 	{
@@ -54,7 +59,6 @@ class Scaffold {
 	}
 	public function update()
 	{
-		echo "Em Atualizar<br/>";
 		$crud = New Crud($this->objData);
 		$crud->update($this->request->getParams());
 		$indexname 	= $this->objData->getIndexName();
@@ -63,7 +67,6 @@ class Scaffold {
 	}
 	public function delete()
 	{
-		echo "Em Apagar<br/>";
 		$crud = New Crud($this->objData);
 		$crud->delete($this->request->getParams());
 		$indexname 	= $this->objData->getIndexName();
@@ -75,8 +78,6 @@ class Scaffold {
 		$indexname 	= $this->objData->getIndexName();
 		$idxval 	= $this->request->getQuery(2);
 		$idxname 	= $this->request->getQuery(1);
-//		var_dump($idxname );
-//		var_dump($this->objData->getIndexName());
 		if (!is_null($idxval)){
 			$this->objData = $this->objData->find($idxval);
 		}
