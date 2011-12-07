@@ -23,9 +23,15 @@ class ActiveRecordHook {
 			$this->hook [$i] = Array ();
 		}
 	}
+	private function validateType($type)
+	{
+		return (array_key_exists($type, $this->hook));
+
+
+	}
 	public function add($type, \Closure $callback)
 	{
-		if(array_key_exists($type, $this->hook)) {
+		if ($this->validateType($type)) {
 			array_push($this->hook[$type], $callback);
 		} else {
 			throw New \Exception('Invalid Event Type');
@@ -33,7 +39,7 @@ class ActiveRecordHook {
 	}
 	public function exec($type, ActiveRecord $record)
 	{
-		if(array_key_exists($type, $this->hook)) {
+		if ($this->validateType($type)) {
 			foreach ($this->hook[$type] as $hook) {
 				$hook($record);
 			}
