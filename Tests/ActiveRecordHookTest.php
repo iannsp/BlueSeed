@@ -88,5 +88,22 @@ class ActiveRecordHookTest extends PHPUnit_Framework_TestCase {
 		$this->ActiveRecordHook->add(ActiveRecordHook::AFTERSAVE, $cluename2);
 		$this->AssertEquals(1, $this->ActiveRecordHook->count());
 	}
+	/**
+     * @expectedException \Exception
+     */
+	public function testgetHookType()
+	{
+			$this->ActiveRecordHook->get(10);
+
+	}
+	/**
+     * @expectedException \Exception
+     */
+	public function testsetHookType()
+	{
+		$cluename		= function($record) {};
+		$this->ActiveRecordHook->add(1000, $cluename);
+
+	}
 }
 
