@@ -54,6 +54,14 @@ class ActiveRecordHook {
 			throw New \Exception('Invalid Event Type');
 		}
 	}
+	public function count()
+	{
+		$count = 0;
+		foreach( $this->hook as $hooks){
+			$count+= count($hooks);
+		}
+		return $count;
+	}
 }
 
 ?>
