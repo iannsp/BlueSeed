@@ -210,7 +210,7 @@ abstract class ActiveRecord{
             $stmt->bindParam(":{$field}", $this->_values[$idx]);
         }
         $resultado = $this->execute($stmt);
-    	self::$_hooks->exec(ActiveRecordHook::BEFOREUPDATE, $this);
+    	self::$_hooks->exec(ActiveRecordHook::AFTERUPDATE, $this);
     	return $resultado;
     }
     /**
