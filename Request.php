@@ -43,17 +43,18 @@ class Request
      */
     private function processURLParam(Array $GET){
         if (count($GET)==0) {
-            $this->setDefaultControllerAction($GET);
-            return true;
+            $GET=ARRAY('Index/Index'=>'');
         }
-        $k = array_keys($_GET);
+        $k = array_keys($GET);
+        if ($k[0]=="0"){
+            $GET = ARRAY($GET[0]=>'');
+            $k=array_keys($GET);
+        }
         $GET = explode ('/', $k[0]);
         if ($GET[count($GET)-1]=='') {
             array_pop($GET);
         }
-        if ($this->setDefaultControllerAction($GET)) {
-            return true;
-        }
+        $this->setDefaultControllerAction($GET);
         foreach ($GET as $idx => $each){
             if ($idx < 1)
                 continue;
@@ -71,24 +72,16 @@ class Request
      * with URL
      * @param array $GET the Request URL
      *
-     * @return boolean
      * @access private
      */
     private function setDefaultControllerAction(Array $GET)
     {
-        if (count($GET)==0){
-            $this->PAIRGET['controller'] = $this->GET[0] = "IndexController";
-            $this->PAIRGET['action']      = $this->GET[1] = "Index";
-            return true;
-        } else {
-            $this->PAIRGET['controller'] = $this->GET[0] =ucfirst($GET[0])."Controller";
+            $this->PAIRGET['controller']    = $this->GET[0] =ucfirst($GET[0])."Controller";
             if (count($GET)>=2){
-            	$this->PAIRGET['action'] = $this->GET[1] = ucfirst($GET[1]);
+            	$this->PAIRGET['action']    = $this->GET[1] = ucfirst($GET[1]);
             }else{
-            	$this->PAIRGET['action'] = $this->GET[1] = "Index";
+            	$this->PAIRGET['action']    = $this->GET[1] = "Index";
             }
-            return false;
-        }
     }
     /**
      * inform if the Request is a GET Request
@@ -106,7 +99,7 @@ class Request
      */
     public function isPost()
     {
-        return (boolean) count($_POST);
+        return (boolean) count($this->POST);
     }
     /**
      * set the Parameters into Request Object.
@@ -164,13 +157,13 @@ class Request
      * @param string $name
      * @return bool
      */
-    public function hasinQuery($name=null)
+    public function hasinQuery($name)
     {
-        if (is_null($name)) {
-            return (count($this->GET)-2 > 0)?true:false;
-        } else {
-            return array_key_exists($name, $this->GET);
-        }
+        return array_key_exists($name, $this->GET)||array_key_exists($name, $this->PAIRGET);
+    }
+    public function getQuerys()
+    {
+        return $this->GET;
     }
     /**
      *

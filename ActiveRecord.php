@@ -1,5 +1,6 @@
 <?php
 namespace BlueSeed;
+use BlueSeed\ActiveRecordHook;
 /**
  *
  * The Active Record make possible persist data from VO's
@@ -14,37 +15,60 @@ abstract class ActiveRecord{
      * @var Array $fields
      * @access private
     */
-    private $fields = Array();
+    private $_fields = Array();
+
+
+    /**
+     * All hooks you need to malipulate records
+     * @var ActiveRecordHook
+     */
+    private static $_hooks;
+
     /**
      *
      * reflection of VO instance save the fields values here
      * @var Array $values
      * @access private
      */
-    private $values = Array();
+    private $_values = Array();
     /**
      *
      * the VO Name retrieved using reflectoion
      * @var string $type
      * @access private
      */
-    private $type;
+    private $_type;
     /**
      *
      * the instance of System Annotation Used to return meta data from instance
      * @var SystemAnnotation $sa
      * @access private
      */
-    private $sa;
+    private $_sa;
 
+    public function __construct()
+    {
+    	if (is_null(self::$_hooks ))
+			self::$_hooks = New ActiveRecordHook();
+    }
+    /**
+     *
+     * attach the Hook to malipulate
+     * @param ActiveRecordHook $arHooks
+     * @return boolean
+     */
+    public static function attachHooks(ActiveRecordHook $arHooks)
+    {
+		self::$_hooks = $arHooks;
+    }
 
     public function getMeta()
     {
         $this->loadMeta();
     	$meta 					= New \StdClass();
-    	$meta->fields 			= $this->fields;
-		$meta->type				= $this->type;
-		$meta->systemAnnotation	= $this->sa;
+    	$meta->fields 			= $this->_fields;
+		$meta->type				= $this->_type;
+		$meta->systemAnnotation	= $this->_sa;
     	return $meta;
     }
     /**
@@ -55,15 +79,15 @@ abstract class ActiveRecord{
      *
      */
     private function loadMeta(){
-        $this->fields = Array();
-        $this->values = Array();
+        $this->_fields = Array();
+        $this->_values = Array();
         $rInstance = new \ReflectionClass($this);
-        $this->type    =     $rInstance->getName();
-        $this->sa    =     \BlueSeed\SystemAnnotation::createasClass( $rInstance->getName() );
+        $this->_type    =     $rInstance->getName();
+        $this->_sa    =     \BlueSeed\SystemAnnotation::createasClass( $rInstance->getName() );
         $properties = $rInstance->GetProperties( \ReflectionProperty::IS_PUBLIC);
         foreach ($properties as $name => $property){
-            array_push($this->fields, ($fname= $property->getName()) );
-            array_push($this->values, $this->$fname )  ;
+            array_push($this->_fields, ($fname= $property->getName()) );
+            array_push($this->_values, $this->$fname )  ;
         }
     }
     /**
@@ -74,7 +98,7 @@ abstract class ActiveRecord{
      */
     public function getIndexName(){
         $this->loadMeta();
-        return $this->sa->get('@indexName');
+        return $this->_sa->get('@indexName');
     }
     /**
      *
@@ -95,7 +119,7 @@ abstract class ActiveRecord{
      */
     public function getTableName(){
         $this->loadMeta();
-        return $this->sa->get('@tableName');
+        return $this->_sa->get('@tableName');
     }
     /**
      *
@@ -105,7 +129,7 @@ abstract class ActiveRecord{
      */
     public function getConnectionName(){
         $this->loadMeta();
-        return $this->sa->get('@connectionName');
+        return $this->_sa->get('@connectionName');
     }
     /**
      *
@@ -154,35 +178,40 @@ abstract class ActiveRecord{
      * @return void
      */
     public function save(){
-        $this->loadMeta();
+    	self::$_hooks->exec(ActiveRecordHook::AFTERSAVE, $this);
+    	$this->loadMeta();
         if (is_null($this->getIndexValue())){
             $id = $this->insert();
             $this->setIndexValue($id);
         }
         else
             $this->update();
+        self::$_hooks->exec(ActiveRecordHook::BEFORESAVE, $this);
     }
     /**
      *
      * Update a record represented by VO using the index value
-     * @return void
+     * @return voidAFTERINSERT
      * @access private
      */
     private function update(){
+    	self::$_hooks->exec(ActiveRecordHook::BEFOREUPDATE, $this);
         $updateTerm = Array();
-        foreach ($this->fields as $idx => $field){
+        foreach ($this->_fields as $idx => $field){
             if ($field != $this->getIndexName() )
-                array_push ($updateTerm, "{$field}= :{$field}");
+                array_push ($updateTerm, "`{$field}`= :{$field}");
         }
         $updatestr =  implode(",",$updateTerm);
         $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
             "update {$this->getTableName()} set {$updatestr} where {$this->getIndexName()} = '{$this->getIndexValue()}';"
         );
-        foreach ($this->fields as $idx => $field){
+        foreach ($this->_fields as $idx => $field){
             if ($field != $this->getIndexName() )
-            $stmt->bindParam(":{$field}", $this->values[$idx]);
+            $stmt->bindParam(":{$field}", $this->_values[$idx]);
         }
-        $stmt->execute();
+        $resultado = $this->execute($stmt);
+    	self::$_hooks->exec(ActiveRecordHook::AFTERUPDATE, $this);
+    	return $resultado;
     }
     /**
      *
@@ -191,17 +220,20 @@ abstract class ActiveRecord{
      * @return void
      */
     private function insert(){
-        $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
-            "insert into {$this->getTableName()} (".implode(",",$this->fields).") values(:".implode(",:",$this->fields).");"
+    	self::$_hooks->exec(ActiveRecordHook::BEFOREINSERT, $this);
+    	$stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
+            "insert into {$this->getTableName()} (".implode(",",$this->_fields).") values(:".implode(",:",$this->_fields).");"
         );
-        foreach ($this->fields as $idx => $field){
-            $stmt->bindParam(":{$field}", $this->values[$idx]);
+        foreach ($this->_fields as $idx => $field){
+            $stmt->bindParam(":{$field}", $this->_values[$idx]);
         }
         $this->execute($stmt);
-        return Database::getInstance()->
+        $resultado = Database::getInstance()->
                         get( $this->getConnectionName() )->
                         get()->
                         lastInsertId("{$this->getTableName()}_{$this->getIndexName()}_seq");
+    	self::$_hooks->exec(ActiveRecordHook::AFTERINSERT, $this);
+        return $resultado;
     }
     /**
      *
@@ -210,14 +242,16 @@ abstract class ActiveRecord{
      * @return void
      */
     public function delete(){
-        $this->loadMeta();
+    	self::$_hooks->exec(ActiveRecordHook::BEFOREDELETE, $this);
+    	$this->loadMeta();
         $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
             "delete from {$this->getTableName()} where {$this->getIndexName()} = :{$this->getIndexName()};"
         );
         $value = $this->getIndexValue();
         $stmt->bindParam(":{$this->getIndexName()}", $value );
-        $stmt->execute();
+        $this->execute($stmt);
         $this->setIndexValue(null);
+    	self::$_hooks->exec(ActiveRecordHook::AFTERDELETE, $this);
     }
 
     /**
