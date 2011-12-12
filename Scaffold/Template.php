@@ -25,7 +25,10 @@ class Template {
 		$this->controllerName = $controlerName;
 		View::set('bsscaffold_cname', $controlerName);
 	}
-	function setData(Array $data){
+        public function setTmplDir($tmpldir){
+                $this->tmpldir = $tmpldir;
+        }
+        function setData(Array $data){
 		$this->data	= $data;
 	}
 	function setTemplateObject(ActiveRecord $objData)
