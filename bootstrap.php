@@ -2,8 +2,7 @@
 /*
  * get information about directory BS Framework are
  */
-define( 'SYS_PATH', dirname(__FILE__) );
-$pathinfo     =    pathinfo(SYS_PATH);
+define( 'SYS_PATH', __DIR__ );
 
 /*
  * load the BS Framework configuration
@@ -15,7 +14,7 @@ require_once SYS_PATH.'/Config/system.conf.php';
  * @param string $name
  */
 function _bsautoload_($name) {
-    global $pathinfo;
+	$pathinfo     =    pathinfo(__DIR__ );
     $searchpath     =     explode('\\', $name);
     $name    = array_pop( $searchpath );
     $searchpath =  $pathinfo['dirname'].DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$searchpath).DIRECTORY_SEPARATOR;

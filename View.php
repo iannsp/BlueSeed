@@ -21,10 +21,10 @@ Final class View{
      * @param string $__name__
      * @throws \Exception
      */
-    public static function render($__name__){
+    public static function render($__name__, $path=VIEW_PATH){
             extract(self::$data);
-        if (self::renderExists( $__name__ ) )
-            require self::getRenderPath($__name__);
+        if (self::renderExists( $__name__ , $path) )
+            require self::getRenderPath($__name__, $path);
         else
             throw New \Exception ("render {$__name__} n�o existe");
     }
@@ -35,9 +35,9 @@ Final class View{
      * @param string $__name__
      * @return string
      */
-    private static function getRenderPath($__name__){
+    private static function getRenderPath($__name__, $path= VIEW_PATH ){
         $__name__ = str_replace('_','/', $__name__);
-        return VIEW_PATH."{$__name__}.php" ;
+        return $path."{$__name__}.php" ;
     }
     /**
      *
@@ -85,7 +85,7 @@ Final class View{
      * @param string  $__name__
      * @return void
      */
-    public static function renderExists( $__name__ ){
-        return file_exists( self::getRenderPath($__name__) );
+    public static function renderExists( $__name__, $path= VIEW_PATH ){
+        return file_exists( self::getRenderPath($__name__, $path) );
     }
 }

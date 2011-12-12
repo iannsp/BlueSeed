@@ -19,7 +19,7 @@ class SystemAnnotation {
     private function __construct($class,$type, $method=null, $property=null){
     	$this->type			= $type;
         $this->methodName 	= $method;
-        $this->propertyName = $method;
+        $this->propertyName = $property;
         $this->class 		= $class;
         $this->parse();
     }
