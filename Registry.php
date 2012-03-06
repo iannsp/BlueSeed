@@ -17,46 +17,59 @@ class Registry{
      * @static
      */
     private static $data = Array();
+
+    /**
+    * 
+    * to set values into registry
+    * @param $name string The ID to recovery the data
+    * @param $var mixed value to storage
+    */
+    public static function  set($name, $var)
+    {
+        self::$data[$name] = $var;
+    }
+    /**
+    * 
+    * to recovery values
+    * @param $name string
+    */
+    public static function get($name)
+    {
+        if (array_key_exists($name, self::$data)){
+            return self::$data[$name];
+        }
+        return null;
+    }
+
     /**
      *
-     * set a new data. If data exists its override
-     * this method can Set Object but without serialize
-     * @param string $name
-     * @param mixed $value
-     * @return void
+     * to old versions works
      */
     public static function setVar($name, $value){
-        self::$data[$name] = $value;
+        self::set($name, $value);
     }
+
     /**
      *
-     * retrieve the data stored in informed label
-     * @param string $name
-     * @return mixed
+     * to old versions works
      */
     public static function getVar($name){
-        return self::$data[$name];
+        return self::get($name);
     }
+
     /**
      *
-     * retrieve the data stored in informed label before unserialize it
-     * @param unknown_type $name
-     * @return mixed
+     * to old versions works
      */
     public static function getObject($name){
-        if (isset(self::$data['objects'][$name])){
-            return unserialize(self::$data['objects'][$name]);
-        }
-        return NULL;
+        return self::get($name);
     }
+
     /**
      *
-     * set a new data. If data exists its override
-     * this method serialize the data before store
-     * @param string $name
-     * @package mixed $value
+     * to old versions works
      */
     public static function setObject($name, $value){
-        self::$data['objects'][$name]    = serialize($value);
+        return self::set($name, $value);
     }
 }
