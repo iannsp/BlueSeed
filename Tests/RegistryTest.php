@@ -17,7 +17,6 @@ class RegistryTest extends PHPUnit_Framework_TestCase
         $class = new BlueSeed\Session;
         BlueSeed\Registry::setObject('class_1',$class);
         $this->AssertEquals(BlueSeed\Registry::getObject('class_1'),$class);
-        
     }
     public function testgetObject()
     {
@@ -30,5 +29,16 @@ class RegistryTest extends PHPUnit_Framework_TestCase
         $class = new BlueSeed\Session;
         BlueSeed\Registry::setVar('objSer',serialize($class));
         $this->AssertEquals( unserialize(BlueSeed\Registry::getVar('objSer')),$class);
+    }
+    public function testgetUnAvailableID()
+    {
+        $this->AssertNull(BlueSeed\Registry::get('unavailable'));
+    }
+    public function testsetTwice()
+    {
+        $class = New \StdClass;
+        BlueSeed\Registry::set('id1', $class);
+        BlueSeed\Registry::set('id1', 'teste');
+        $this->AssertEquals(BlueSeed\Registry::get('id1'), 'teste');
     }
 }
