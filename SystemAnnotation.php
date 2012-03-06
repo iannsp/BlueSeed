@@ -17,7 +17,7 @@ class SystemAnnotation {
     private $propertyName;
     private $class;
     private function __construct($class,$type, $method=null, $property=null){
-        $this->type			= $type;
+        $this->type         = $type;
         $this->methodName   = $method;
         $this->propertyName = $method;
         $this->class        = $class;
@@ -57,15 +57,15 @@ class SystemAnnotation {
     }
     private function updateMethod($methodName)
     {
-        $this->methodName		= $methodName;
+        $this->methodName   = $methodName;
     }
     private function updateClass($class)
     {
-        $this->class 			= $class;
+        $this->class        = $class;
     }
     private function updateProperty($propertyName)
     {
-        $this->propertyName		= $propertyName;
+        $this->propertyName = $propertyName;
     }
     private function parse(){
         $docbloc = $this->getReflectionClass()->getDocComment();

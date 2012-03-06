@@ -13,7 +13,7 @@ abstract class Message
      */
     public function __toString()
     {
-        $props     	= Array();
+        $props      = Array();
         $properties = $this->getProperties();
         foreach ($properties as  $property) {
             $props .= array_push($props, "{$property->getName()}:{$property->getValue()}");
