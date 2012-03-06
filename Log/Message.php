@@ -48,4 +48,3 @@ abstract class Message
         return $class->getProperties(\ReflectionProperty::IS_PRIVATE);
     }
 }
-?>

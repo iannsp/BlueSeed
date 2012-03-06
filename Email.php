@@ -118,12 +118,11 @@ class Email {
      * @return void
      */
     public function clearData(){
-        $this->body         = "";
-        $this->subject         = "";
-        $this->from            = "";
-        $this->to            = "";
+        $this->body   	= "";
+        $this->subject  = "";
+        $this->from     = "";
+        $this->to		= "";
     }
 
 }
 
-?>

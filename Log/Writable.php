@@ -10,4 +10,3 @@ interface Writable
 {
     public function write(Message $msg);
 }
-?>

@@ -10,4 +10,3 @@ interface Observer
 {
     public function update(Observable $o);
 }
-?>

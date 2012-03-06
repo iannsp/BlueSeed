@@ -64,4 +64,3 @@ class Log
         $this->messages    = Array();
     }
 }
-?>

@@ -14,4 +14,3 @@ interface Mailable {
     public function send( $to, array $header, $body);
 }
 
-?>

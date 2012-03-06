@@ -96,4 +96,3 @@ class DatabaseCollection implements \ArrayAccess, \Iterator, \Countable{
     }
 }
 
-?>
