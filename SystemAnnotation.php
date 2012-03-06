@@ -17,58 +17,56 @@ class SystemAnnotation {
     private $propertyName;
     private $class;
     private function __construct($class,$type, $method=null, $property=null){
-    	$this->type			= $type;
-        $this->methodName 	= $method;
+        $this->type			= $type;
+        $this->methodName   = $method;
         $this->propertyName = $method;
-        $this->class 		= $class;
+        $this->class        = $class;
         $this->parse();
     }
     public static function createasProperty($class, $propertyName)
     {
-		return New SystemAnnotation($class, "property", NULL, $propertyName);
+        return New SystemAnnotation($class, "property", NULL, $propertyName);
     }
     public static function createasMethod($class, $methodName)
     {
-		return New SystemAnnotation($class, "method", $methodName);
+        return New SystemAnnotation($class, "method", $methodName);
     }
     public static function createasClass($class)
     {
-		return New SystemAnnotation($class, "class");
+        return New SystemAnnotation($class, "class");
     }
-
     private function getReflectionClass(){
-    	switch($this->type) {
-    		case "class" :
-            	$reflection = new \ReflectionClass($this->class);
-            	break;
-    		case "property":
-            	$reflection = new \ReflectionProperty($this->class, $this->propertyName);
-    			break;
-    		case "method":
-            	$reflection = new \ReflectionMethod($this->class, $this->methodName);
-    			break;
-    	}
+        switch($this->type) {
+            case "class" :
+                $reflection = new \ReflectionClass($this->class);
+                break;
+            case "property":
+                $reflection = new \ReflectionProperty($this->class, $this->propertyName);
+                break;
+            case "method":
+                $reflection = new \ReflectionMethod($this->class, $this->methodName);
+                break;
+        }
         return $reflection;
     }
     public function updateTarget($target)
     {
-    	$update = "update".ucfirst( $this->type);
-		$this->$update($target);
+        $update = "update".ucfirst( $this->type);
+        $this->$update($target);
         $this->parse();
     }
     private function updateMethod($methodName)
     {
-		$this->methodName 		= $methodName;
+        $this->methodName		= $methodName;
     }
     private function updateClass($class)
     {
-		$this->class 			= $class;
+        $this->class 			= $class;
     }
     private function updateProperty($propertyName)
     {
-		$this->propertyName		= $propertyName;
+        $this->propertyName		= $propertyName;
     }
-
     private function parse(){
         $docbloc = $this->getReflectionClass()->getDocComment();
         $dados = explode("\n", $docbloc);

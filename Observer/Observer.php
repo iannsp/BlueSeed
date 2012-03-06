@@ -8,6 +8,6 @@
 namespace BlueSeed\Observer;
 interface Observer
 {
-	public function update(Observable $o);
+    public function update(Observable $o);
 }
 ?>
