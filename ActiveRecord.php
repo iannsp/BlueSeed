@@ -190,11 +190,18 @@ abstract class ActiveRecord{
      * @return void
      */
     private function insert(){
+        $fields = array();
+        foreach ($this->fields as $idx => $field) {
+            if (!(($field == $this->getIndexName()) && (is_null($this->values[$idx]))))
+                $fields[] = $field;
+        }
         $stmt = Database::getInstance()->get( $this->getConnectionName() )->get()->prepare(
-            "insert into {$this->getTableName()} (".implode(",",$this->fields).") values(:".implode(",:",$this->fields).");"
+            "insert into {$this->getTableName()} (".implode(",",$fields).") values(:".implode(",:",$fields).");"
         );
         foreach ($this->fields as $idx => $field){
-            $stmt->bindParam(":{$field}", $this->values[$idx]);
+            if ($field == $this->getIndexName())
+                continue;
+            $stmt->bindValue(":{$field}", $this->values[$idx]);
         }
         $this->execute($stmt);
         return Database::getInstance()->
