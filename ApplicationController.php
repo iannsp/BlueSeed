@@ -44,7 +44,8 @@ class ApplicationController extends Controller {
                     $controller->$controllermethod();
                 }
                 else {
-                    $this->notfound($this->controller, $this->action);
+                    $controller->Index();
+                    //$this->notfound($this->controller, $this->action);
                 }
             }catch(\Exception $E){
                 View::set('exception', $E);
