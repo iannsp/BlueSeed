@@ -86,6 +86,17 @@ class Request
             return false;
         }
     }
+    public function setController($controller)
+    {
+            $this->PAIRGET['controller'] = ucfirst($controller)."Controller";
+            $this->GET[0]                = $this->PAIRGET['controller'];
+    }
+    public function setAction($action)
+    {
+            $this->PAIRGET['action'] = ucfirst($action);
+            $this->GET[1]                = $this->PAIRGET['action'];
+ 
+    }
     /**
      * inform if the Request is a GET Request
      * @return boolean
@@ -142,8 +153,10 @@ class Request
      * @return string
      * @access public
      */
-    public function getQuery($name)
+    public function getQuery($name=null)
     {
+        if (is_null($name))
+                return $this->PAIRGET;
         if(    array_key_exists($name, $this->PAIRGET) &&
             !is_null($this->PAIRGET[$name])
             ) {
