@@ -31,9 +31,17 @@ class ApplicationController extends Controller {
      * @return void
      */
     public function dispatch(){
-        if ( $this->hasController($this->controller)){
+        if (!is_null(APP_ROUTE_FILE) and is_file(APP_ROUTE_FILE)) {
+            $routes = parse_ini_file(APP_ROUTE_FILE);
+            if ($routes !== false) {
+                $router = new Router($routes, $this->getRequest());
+                $router->resolve(LANGUAGE); 
+            }
+        }
+        if ( $this->hasController($this->getRequest()->getQuery(0))){
             try{
-                $controllername = "\\Application\\Controller\\".$this->controller;
+                $controller = $this->getRequest()->getQuery(0);
+                $controllername = "\\Application\\Controller\\".$controller;//>controller;
                 $controller =  new $controllername($this->getRequest());
                 $controllermethod = $controller->getRequest()->getQuery(1);
                 if( method_exists($controller, $controllermethod)) {
