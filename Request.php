@@ -82,6 +82,8 @@ class Request
             return true;
         } else {
             $this->PAIRGET['controller'] = $this->GET[0] =ucfirst($GET[0])."Controller";
+            if (count($GET)==1)
+                $GET[1] = 'Index';
             $this->PAIRGET['action'] = $this->GET[1] = ucfirst($GET[1]);
             return false;
         }
