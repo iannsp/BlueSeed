@@ -52,11 +52,13 @@ class ApplicationController extends Controller {
                     $controller->$controllermethod();
                 }
                 else {
-                    $controller->Index();
+                    $this->notfound($this->controller, $this->action);
+//                    $controller->Index();
                 }
             }catch(\Exception $E){
-                View::set('exception', $E);
-                View::render('system_exception');
+                  $this->notfound($this->controller, $this->action); 
+//                View::set('exception', $E);
+//                View::render('system_exception');
             }
         }else{
                 $this->notFound($this->controller, $this->action);
@@ -80,8 +82,14 @@ class ApplicationController extends Controller {
      * @return void
      */
     private function notfound($controller, $action){
-        \BlueSeed\View::set('controller', $controller);
-        \BlueSeed\View::set('action', $action);
-        \BlueSeed\View::render('system_notfound');
+        $controller = new \Application\Controller\IndexController($this->getRequest());
+        foreach ($this->observerCollection as $obs) {
+            $controller->attachObserver($obs);
+        }
+        $controller->notifyObservers();
+        $controller->notfound(); 
+//       \BlueSeed\View::set('controller', $controller);
+//        \BlueSeed\View::set('action', $action);
+//        \BlueSeed\View::render('system_notfound');
     }
 }
