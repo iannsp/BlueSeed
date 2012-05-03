@@ -32,7 +32,7 @@ class Request
 
     function __construct (Array $GET, Array $POST)
     {
-        $this->processURLParam($GET);
+        $this->processURLParam((isset($GET['bsurl']))?$GET['bsurl']:null);
         $this->POST = $POST;
     }
     /**
@@ -41,13 +41,12 @@ class Request
      * @return void
      * @access private
      */
-    private function processURLParam(Array $GET){
-        if (count($GET)==0) {
+    private function processURLParam($GET){
+        if (strlen($GET)==0) {
             $this->setDefaultControllerAction($GET);
             return true;
         }
-        $k = array_keys($_GET);
-        $GET = explode ('/', $k[0]);
+        $GET = explode ('/', $GET);
         if ($GET[count($GET)-1]=='') {
             array_pop($GET);
         }
@@ -74,8 +73,10 @@ class Request
      * @return boolean
      * @access private
      */
-    private function setDefaultControllerAction(Array $GET)
+    private function setDefaultControllerAction($GET)
     {
+        if (!is_array($GET))
+            $GET = strlen($GET)==0?Array():explode('/',$GET);
         if (count($GET)==0){
             $this->PAIRGET['controller'] = $this->GET[0] = "IndexController";
             $this->PAIRGET['action']      = $this->GET[1] = "Index";
