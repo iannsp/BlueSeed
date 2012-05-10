@@ -52,13 +52,21 @@ class ApplicationController extends Controller {
                     $controller->$controllermethod();
                 }
                 else {
-                    $this->notfound($this->controller, $this->action);
+                    if (defined("LOGFILE")) {
+                        $log = fopen(LOGFILE,"a");
+                        fwrite($log,"not found:{$controllername}-> {$this->action}\n");
+                        fclose($log);
+                    }
+                   $this->notfound($this->controller, $this->action);
 //                    $controller->Index();
                 }
             }catch(\Exception $E){
+                     if (defined("LOGFILE")) {
+                        $log = fopen(LOGFILE,"a");
+                        fwrite($log, (string) $E);
+                        fclose($log);
+                    }
                   $this->notfound($this->controller, $this->action); 
-//                View::set('exception', $E);
-//                View::render('system_exception');
             }
         }else{
                 $this->notFound($this->controller, $this->action);
