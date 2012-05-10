@@ -63,7 +63,7 @@ class ApplicationController extends Controller {
             }catch(\Exception $E){
                      if (defined("LOGFILE")) {
                         $log = fopen(LOGFILE,"a");
-                        fwrite($log, (string) $E);
+                        fwrite($log, (string) $E."\n");
                         fclose($log);
                     }
                   $this->notfound($this->controller, $this->action); 
