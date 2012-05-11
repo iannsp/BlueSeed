@@ -56,10 +56,10 @@ class Request
         foreach ($GET as $idx => $each){
             if ($idx < 1)
                 continue;
-            $this->GET[$idx]    = filter_var($each, FILTER_SANITIZE_URL );
+            $this->GET[$idx]    = $each;//, FILTER_SANITIZE_URL );
             if (!($idx % 2)) {
             $this->PAIRGET[$each] = (($idx+1) < count($GET))
-                                    ?filter_var($GET[($idx+1)], FILTER_SANITIZE_URL )
+                                    ?$GET[($idx+1)] //, FILTER_SANITIZE_URL )
                                     :NULL;
             }
         }
