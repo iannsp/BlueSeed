@@ -53,6 +53,14 @@ class Session{
         }
         return null;
     }
+    public function unsetVar($name)
+    {
+         if (array_key_exists($name, $_SESSION)) {
+            unset($_SESSION[$name]);
+        }
+        return null;
+        
+    }
     /**
      * retrieve a mixed saved with setObject
      * @see setObject
