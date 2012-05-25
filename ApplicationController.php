@@ -40,10 +40,10 @@ class ApplicationController extends Controller {
         }
         if ( $this->hasController($this->getRequest()->getQuery(0))){
             try{
-                $controller = $this->getRequest()->getQuery(0);
+                $controller = $this->getRequest()->getController();//getQuery(0);
                 $controllername = "\\Application\\Controller\\".$controller;//>controller;
                 $controller =  new $controllername($this->getRequest());
-                $controllermethod = $controller->getRequest()->getQuery(1);
+                $controllermethod = $controller->getRequest()->getAction();//getQuery(1);
                 if( method_exists($controller, $controllermethod)) {
                     foreach ($this->observerCollection as $obs) {
                         $controller->attachObserver($obs);
@@ -54,7 +54,9 @@ class ApplicationController extends Controller {
                 else {
                     if (defined("LOGFILE")) {
                         $log = fopen(LOGFILE,"a");
+                        var_dump("not found:{$controllername}-> {$this->action}\n");
                         fwrite($log,"not found:{$controllername}-> {$this->action}\n");
+                        //fwrite($log, (string) $E."\n");
                         fclose($log);
                     }
                    $this->notfound($this->controller, $this->action);

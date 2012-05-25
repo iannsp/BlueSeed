@@ -82,23 +82,33 @@ class Request
             $this->PAIRGET['action']      = $this->GET[1] = "Index";
             return true;
         } else {
-            $this->PAIRGET['controller'] = $this->GET[0] =ucfirst($GET[0])."Controller";
+            $this->PAIRGET['controller'] = $this->GET[0] =
+            str_replace("-","",ucfirst($GET[0]))."Controller";
             if (count($GET)==1)
                 $GET[1] = 'Index';
-            $this->PAIRGET['action'] = $this->GET[1] = ucfirst($GET[1]);
+            $this->PAIRGET['action'] = $this->GET[1] =
+            str_replace("-","",ucfirst($GET[1]));
             return false;
         }
     }
     public function setController($controller)
     {
-            $this->PAIRGET['controller'] = ucfirst($controller)."Controller";
+            $this->PAIRGET['controller'] = str_replace("-","",ucfirst($controller))."Controller";
             $this->GET[0]                = $this->PAIRGET['controller'];
     }
     public function setAction($action)
     {
-            $this->PAIRGET['action'] = ucfirst($action);
+            $this->PAIRGET['action'] = str_replace("-","",ucfirst($action));
             $this->GET[1]                = $this->PAIRGET['action'];
  
+    }
+    public function getAction()
+    {
+        return $this->PAIRGET['action'];
+    }
+    public function getController()
+    {
+        return $this->PAIRGET['controller'];
     }
     /**
      * inform if the Request is a GET Request
