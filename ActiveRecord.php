@@ -37,14 +37,13 @@ abstract class ActiveRecord{
      */
     private $sa;
 
-
     public function getMeta()
     {
-    	$meta 					= New \StdClass();
-    	$meta->fields 			= $this->fields;
-		$meta->type				= $this->type;
-		$meta->systemAnnotation	= $this->sa;
-    	return $meta;
+        $meta                   = New \StdClass();
+        $meta->fields           = $this->fields;
+        $meta->type             = $this->type;
+        $meta->systemAnnotation = $this->sa;
+        return $meta;
     }
     /**
      *
@@ -54,12 +53,12 @@ abstract class ActiveRecord{
      *
      */
     private function loadMeta(){
-        $this->fields = Array();
-        $this->values = Array();
-        $rInstance = new \ReflectionClass($this);
-        $this->type    =     $rInstance->getName();
-        $this->sa    =     \BlueSeed\SystemAnnotation::createasClass( $rInstance->getName() );
-        $properties = $rInstance->GetProperties( \ReflectionProperty::IS_PUBLIC);
+        $this->fields   = Array();
+        $this->values   = Array();
+        $rInstance      = new \ReflectionClass($this);
+        $this->type     = $rInstance->getName();
+        $this->sa       = \BlueSeed\SystemAnnotation::createasClass( $rInstance->getName() );
+        $properties     = $rInstance->GetProperties( \ReflectionProperty::IS_PUBLIC);
         foreach ($properties as $name => $property){
             array_push($this->fields, ($fname= $property->getName()) );
             array_push($this->values, $this->$fname )  ;
@@ -205,9 +204,9 @@ abstract class ActiveRecord{
         }
         $this->execute($stmt);
         return Database::getInstance()->
-                        get( $this->getConnectionName() )->
-                        get()->
-                        lastInsertId("{$this->getTableName()}_{$this->getIndexName()}_seq");
+                         get( $this->getConnectionName() )->
+                         get()->
+                         lastInsertId("{$this->getTableName()}_{$this->getIndexName()}_seq");
     }
     /**
      *
@@ -225,7 +224,6 @@ abstract class ActiveRecord{
         $stmt->execute();
         $this->setIndexValue(null);
     }
-
     /**
      *
      * @return bool

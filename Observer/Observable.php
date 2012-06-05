@@ -8,7 +8,7 @@
 namespace BlueSeed\Observer;
 interface Observable
 {
-	public function attachObserver(Observer $o);
-	public function detachObserver(Observer $o);
-	public function notifyObservers();
+    public function attachObserver(Observer $o);
+    public function detachObserver(Observer $o);
+    public function notifyObservers();
 }

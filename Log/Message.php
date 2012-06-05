@@ -7,26 +7,26 @@
 namespace BlueSeed\Log;
 abstract class Message
 {
-	/**
-	 *
-	 * make the properties in a string when use this class in echo
-	 */
-	public function __toString()
+    /**
+     *
+     * make the properties in a string when use this class in echo
+     */
+    public function __toString()
     {
-    	$props 	= Array();
-    	$properties = $this->getProperties();
-		foreach ($properties as  $property) {
-			$props .= array_push($props, "{$property->getName()}:{$property->getValue()}");
-		}
-		return explode(',', $props);
+        $props      = Array();
+        $properties = $this->getProperties();
+        foreach ($properties as  $property) {
+            $props .= array_push($props, "{$property->getName()}:{$property->getValue()}");
+        }
+        return explode(',', $props);
     }
-	/**
-	 *
-	 * Explicit request of all data into String
-	 */
+    /**
+     *
+     * Explicit request of all data into String
+     */
     public function toString()
     {
-    	return $this->__toString();
+        return $this->__toString();
     }
 
     /**
@@ -35,7 +35,7 @@ abstract class Message
      */
     public function toJson()
     {
-		return json_encode($this);
+        return json_encode($this);
     }
 
     /**
@@ -44,8 +44,7 @@ abstract class Message
      */
     protected function getProperties()
     {
-		$class 		= New \ReflectionClass($this);
-		return $class->getProperties(\ReflectionProperty::IS_PRIVATE);
+        $class = New \ReflectionClass($this);
+        return $class->getProperties(\ReflectionProperty::IS_PRIVATE);
     }
 }
-?>
